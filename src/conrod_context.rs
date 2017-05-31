@@ -3,10 +3,10 @@ use winit;
 
 use libc::c_void;
 
-use conrod::backend::glium::glium::glutin::{CreationError, WindowBuilder};
+use conrod::backend::glium::glium::glutin::{CreationError, WindowBuilder, Window};
 
 pub struct WindowContext {
-    pub window: winit::Window,
+    pub window: Window,
 }
 
 impl WindowContext {
