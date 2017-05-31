@@ -1,9 +1,12 @@
 use conrod;
+use winit;
 
 use libc::c_void;
 
+use conrod::backend::glium::glium::glutin::{CreationError, WindowBuilder};
+
 pub struct WindowContext {
-    pub window: conrod::glutin::Window,
+    pub window: winit::Window,
 }
 
 impl WindowContext {
@@ -13,8 +16,8 @@ impl WindowContext {
 
         let wb = winit::WindowBuilder::new().with_parent(handle);
 
-        match conrod::backend::glutin::WindowBuilder::from_winit_builder(wb)
-            .build_glium() {
+        match WindowBuilder::from_winit_builder(wb)
+            .build() {
                 Err(why) => Err(why),
                 Ok(window) => {
                     info!("Window spawned OK with conrod.");

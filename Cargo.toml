@@ -9,7 +9,7 @@ log = "0.3"
 simplelog = "0.4.2"
 libc = "*"
 conrod = { version = "0.52.0", features = ["piston", "glium", "winit"] }
-# winit = "0.5.9"
+winit = { path = "deps/winit-0.5.11" }
 
 [lib]
 name = "dd_gui"
