@@ -9,11 +9,11 @@ log = "0.3"
 simplelog = "0.4.2"
 libc = "*"
 conrod = { version = "0.52.0", features = ["piston", "glium", "winit"] }
-winit = "0.5.9"
+# winit = "0.5.9"
 
 [lib]
 name = "dd_gui"
 crate-type = ["cdylib"]
 
-# [replace]
-# "winit:0.5.9" = { path = "deps/winit-0.5.11" }
+[replace]
+"winit:0.5.11" = { path = "deps/winit-0.5.11" }
