@@ -3,37 +3,46 @@ use winit;
 
 use libc::c_void;
 
-use conrod::backend::glium::glium::glutin::{CreationError, WindowBuilder, Window};
+use conrod::glium::GliumCreationError;
+use conrod::backend::glium::glium::glutin::{WindowBuilder, Window};
+use conrod::backend::glium::glium::{DisplayBuild, Surface};
+
+#[derive(Debug)]
+pub enum WindowError {
+    GliumError
+}
 
 pub struct WindowContext {
-    pub window: Window,
+    pub display: conrod::glium::Display,
 }
 
 impl WindowContext {
 
-    pub fn new(handle: *mut c_void) -> Result<WindowContext, CreationError> {
+    pub fn new(handle: *mut c_void) -> Result<WindowContext, WindowError> {
         info!("Building window with conrod.");
 
         let wb = winit::WindowBuilder::new().with_parent(handle);
 
         match WindowBuilder::from_winit_builder(wb)
-            .build() {
-                Err(why) => Err(why),
+            .build_glium() {
+                Err(why) => Err(WindowError::GliumError),
                 Ok(window) => {
                     info!("Window spawned OK with conrod.");
 
-                    let (width, height) = window.get_inner_size().unwrap();
-                    let mut ui = conrod::UiBuilder::new([width as f64, height as f64]).build();
-                    let mut renderer = conrod::backend::glium::Renderer::new(&window).unwrap();
+                    // info!("Glutin facade version: {:?}", window.get_version());
 
-                    Ok(WindowContext{ window: window })
+                    // let (width, height) = window.get_inner_size().unwrap();
+                    // let mut ui = conrod::UiBuilder::new([width as f64, height as f64]).build();
+                    // let mut renderer = conrod::backend::glium::Renderer::new(&window).unwrap();
+
+                    Ok(WindowContext{ display: window })
                 }
             }
     }
 
     pub fn open(&mut self) {
         info!("showing window");
-        self.window.show()
+        // self.window.show()
     }
 
     pub fn close(&mut self) {
