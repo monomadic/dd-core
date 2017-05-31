@@ -1,0 +1,26 @@
+language: rust
+
+rust:
+  - nightly
+  - stable
+
+cache: cargo
+
+addons:
+  apt:
+    packages:
+    - libxxf86vm-dev
+
+script:
+  - cargo build --verbose
+  - cargo test --verbose
+
+os:
+  - linux
+  - osx
+
+after_success: 
+  - |
+      [ $TRAVIS_BRANCH = master ] &&
+      [ $TRAVIS_PULL_REQUEST = false ] &&
+      cargo publish --token ${CRATESIO_TOKEN}
