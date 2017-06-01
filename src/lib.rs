@@ -16,12 +16,18 @@ extern crate libc;
 
 #[macro_use] extern crate conrod;
 
+extern crate find_folder;
+extern crate image;
+
 extern crate winit;
 
 mod gui;
 use gui::{Interface};
 
 mod conrod_context;
+
+mod app;
+mod debugging;
 
 struct DDGui {
     threshold: f32,
