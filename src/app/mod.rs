@@ -16,23 +16,30 @@ pub struct App {
     pub renderer: conrod::backend::glium::Renderer,
 }
 
+#[derive(Debug)]
+pub enum AppError {
+    GetWindowFail,
+    GetInnerSizeFail,
+    LoadRendererFail,
+}
+
 impl App {
-    pub fn new(window: glium::Display) -> Self {
-        let (width, height) = window.get_window()
-            .uw("Failed to get window.")
-            .get_inner_size()
-            .uw("Failed to get window size.");
+    pub fn new(window: glium::Display) -> Result<Self, AppError> {
+        let (width, height) = try!(window.get_window()
+            .ok_or(AppError::GetWindowFail)
+            .and_then({|window|
+                window.get_inner_size().ok_or(AppError::GetInnerSizeFail)
+            }));
 
         // Create UI.
         let mut ui = conrod::UiBuilder::new([width as f64, height as f64]).build();
 
-        let renderer = conrod::backend::glium::Renderer::new(&window)
-            .uw("Failed to load conrod glium renderer.");
+        let renderer = conrod::backend::glium::Renderer::new(&window).unwrap();
 
         let image_map = conrod::image::Map::new();
         let ids = Ids::new(ui.widget_id_generator());
         
-        App{ui: ui, display: window, image_map: image_map, renderer: renderer}
+        Ok(App{ui: ui, display: window, image_map: image_map, renderer: renderer, ids: ids})
     }
 }
 

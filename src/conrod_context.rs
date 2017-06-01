@@ -84,7 +84,10 @@ impl WindowContext {
                     
 
                     // Ok(WindowContext{ display: window, ui: ui, image_map: image_map, renderer: renderer })
-                    Ok(WindowContext{ app: app })
+                    match app {
+                        Ok(a) => Ok(WindowContext{ app: a }),
+                        Err(why) => { error!("{:?}", why); panic!("{:?}", why) }
+                    }
                 }
             }
     }
