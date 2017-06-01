@@ -35,6 +35,9 @@ impl WindowContext {
         let wb = winit::WindowBuilder::new().with_parent(handle);
 
         match WindowBuilder::from_winit_builder(wb)
+            .with_vsync()
+            .with_multisampling(8)
+            .with_dimensions(500, 300)
             .build_glium() {
                 Err(why) => Err(WindowError::GliumError),
                 Ok(display) => {

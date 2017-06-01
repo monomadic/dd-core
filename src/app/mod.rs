@@ -51,18 +51,11 @@ impl App {
     pub fn draw(&mut self) {
         info!("draw()");
         let mut target = self.display.draw();
-        target.clear_color(0.0, 0.0, 1.0, 1.0);
-        self.renderer.draw(&self.display, &mut target, &self.image_map).unwrap();
+        target.clear_color(1.0, 0.3, 0.6, 1.0);
+        // self.renderer.draw(&self.display, &mut target, &self.image_map).unwrap();
         target.finish().unwrap();
     }
 }
-
-// fn frame(ui: &mut conrod::UiCell, ids: &Ids, body_id: Id, body: Canvas) {
-//     Canvas::new()
-//         .color(BACKGROUND)
-//         .border(0.0)
-//         .set(ids.root, ui);
-// }
 
 widget_ids! {
     pub struct Ids {
