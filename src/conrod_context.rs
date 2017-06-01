@@ -103,6 +103,7 @@ impl WindowContext {
     }
 
     pub fn update(&mut self) {
+        self.app.draw();
         // Draw the `Ui`.
         // if let Some(primitives) = self.ui.draw_if_changed() {
         //     self.renderer.fill(&self.display, primitives, &self.image_map);
@@ -112,7 +113,7 @@ impl WindowContext {
         //     target.finish().unwrap();
         // }
 
-        info!("update();");
+        // info!("update();");
 
         // self.app.events.update();
         // loop {
