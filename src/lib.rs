@@ -27,7 +27,6 @@ use gui::{Interface};
 mod conrod_context;
 
 mod app;
-mod debugging;
 
 struct DDGui {
     threshold: f32,

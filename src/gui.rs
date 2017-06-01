@@ -1,8 +1,5 @@
 use vst2::editor::{Editor, KnobMode, KeyCode};
 
-// use simplelog::*;
-// use std::fs::File;
-
 use libc;
 use conrod_context::{WindowContext};
 

@@ -1,5 +1,3 @@
-use debugging;
-
 use conrod;
 use conrod::glium;
 use conrod::glium::GliumCreationError;
@@ -8,8 +6,6 @@ use conrod::backend::glium::glium::{DisplayBuild, Surface};
 
 use conrod::{color, Colorable, Labelable, Positionable, Sizeable, Widget, Borderable};
 use conrod::widget::*;
-
-// pub mod ui;
 
 pub struct App {
     pub ui: conrod::Ui,
