@@ -5,14 +5,20 @@ extern crate vst2;
 extern crate log;
 extern crate simplelog;
 
+extern crate log_panics;
+
 use simplelog::*;
 use std::fs::File;
 
+use vst2::api::Supported;
 use vst2::buffer::AudioBuffer;
-use vst2::plugin::{Category, Plugin, Info};
+use vst2::plugin::{Category, Plugin, Info, CanDo};
 use vst2::editor::Editor;
 
 extern crate libc;
+
+#[macro_use] extern crate objc;
+extern crate cocoa;
 
 #[macro_use] extern crate conrod;
 
@@ -63,6 +69,11 @@ impl Plugin for DDGui {
 
             ..Info::default()
         }
+    }
+
+    fn can_do(&self, can_do: CanDo) -> Supported {
+        info!("can do called within plugin: {:?}", can_do);
+        Supported::Other(0xBEEF0000 as isize)
     }
 
     fn get_editor(&mut self) -> Option<&mut Editor> {

@@ -286,10 +286,8 @@ impl Window {
 
         match win_attribs.parent {
             Some(parent) => {
-                use cocoa;
                 view = IdRef::new(parent as id);
-                let ns_window_ptr: cocoa::base::id = unsafe { msg_send![parent as cocoa::base::id, window] };
-                window = IdRef::new(ns_window_ptr as id);
+                window = IdRef::new(unsafe { msg_send![parent as id, window] });
             },
             None => {
                 app = match Window::create_app(pl_attribs.activation_policy) {

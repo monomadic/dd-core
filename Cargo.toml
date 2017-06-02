@@ -1,23 +1,25 @@
 [package]
-name = "dd_gui"
+name = "dd_conrod"
 version = "0.1.0"
 authors = ["Rob Saunders <rob@wearebrandnew.com>"]
 
 [dependencies]
-vst2 = { git = "https://github.com/overdrivenpotato/rust-vst2" }
+# vst2 = { path = "/Users/rob/Projects/_src/rust-vst2" }
+vst2 = { path = "/Users/rob/Projects/rust-vst2" }
 log = "0.3"
 simplelog = "0.4.2"
 libc = "*"
 conrod = { version = "0.52.0", features = ["piston", "glium", "winit"] }
-winit = { path = "deps/winit-0.5.11" }
+winit = { path = "/Users/rob/Projects/rust-vst2-gui-cocoa/deps/winit-0.5.11" }
 image = "0.13.0"
 find_folder = "0.3.0"
-
-[dev-dependencies]
+objc = { version = "0.2.2", features = ["objc_exception"] }
+cocoa="*"
+log-panics = "1.1.0"
 
 [lib]
-name = "dd_gui"
-crate-type = ["cdylib"]
+name = "dd_conrod"
+crate-type = ["dylib"]
 
 [replace]
-"winit:0.5.11" = { path = "deps/winit-0.5.11" }
+"winit:0.5.11" = { path = "/Users/rob/Projects/rust-vst2-gui-cocoa/deps/winit-0.5.11" }
