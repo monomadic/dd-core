@@ -7,6 +7,9 @@ use conrod::backend::glium::glium::{DisplayBuild, Surface};
 use conrod::{color, Colorable, Labelable, Positionable, Sizeable, Widget, Borderable};
 use conrod::widget::*;
 
+extern crate rand;
+use self::rand::Rng;
+
 pub struct App {
     pub ui: conrod::Ui,
     pub display: glium::Display,
@@ -46,7 +49,13 @@ impl App {
 
     pub fn draw(&mut self) {
         let mut target = self.display.draw();
-        target.clear_color(0.0, 0.6, 0.8, 1.0);
+        let mut rng = rand::thread_rng();
+
+        let r = rng.gen::<f32>();
+        let g = rng.gen::<f32>();
+        let b = rng.gen::<f32>();
+
+        target.clear_color(r, g, b, 1.0);
         // self.renderer.draw(&self.display, &mut target, &self.image_map).unwrap();
         target.finish().unwrap();
 

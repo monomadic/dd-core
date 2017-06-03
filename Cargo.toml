@@ -16,6 +16,7 @@ find_folder = "0.3.0"
 objc = { version = "0.2.2", features = ["objc_exception"] }
 cocoa="*"
 log-panics = "1.1.0"
+rand = "*"
 
 [lib]
 name = "dd_conrod"
