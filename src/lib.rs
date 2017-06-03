@@ -61,7 +61,7 @@ impl Plugin for DDGui {
         Info {
             name: "DDGui".to_string(),
             vendor: "DeathDisco".to_string(),
-            unique_id: 25032022,
+            unique_id: 2228222,
             category: Category::Effect,
 
             inputs: 2,

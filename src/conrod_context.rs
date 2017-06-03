@@ -70,10 +70,10 @@ impl WindowContext {
         match WindowBuilder::from_winit_builder(wb)
             // .with_vsync()
             // .with_multisampling(8)
-            .with_dimensions(500, 300)
-            .with_visibility(true)
-            .with_transparency(false)
-            .with_gl_robustness(Robustness::RobustLoseContextOnReset)
+            // .with_dimensions(500, 300)
+            // .with_visibility(true)
+            // .with_transparency(false)
+            // .with_gl_robustness(Robustness::RobustLoseContextOnReset)
             .build_glium() {
                 Err(why) => { error!("Problem with build_glium(): {:?}", why); Err(WindowError::GliumError) },
                 Ok(display) => {
