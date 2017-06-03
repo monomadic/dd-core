@@ -12,6 +12,8 @@ use find_folder;
 use image;
 use std;
 
+use cocoa_helpers::*;
+
 pub use app::App;
 
 #[cfg(feature = "exception")]
@@ -40,30 +42,30 @@ use cocoa::appkit::{NSWindow, NSView,
                     NSBorderlessWindowMask, NSWindowAbove};
 
 /// @property NSRect frame;
-pub unsafe fn host_window_frame(view: id) -> NSRect {
-    NSView::frame(view)
-}
+// pub unsafe fn host_window_frame(view: id) -> NSRect {
+//     NSView::frame(view)
+// }
 
 use log_panics;
 
-pub unsafe fn add_child_view(view: id) -> id {
-    let child_nsview = NSView::alloc(nil);
-    let child_view = child_nsview.initWithFrame_(host_window_frame(view));
+// pub unsafe fn add_child_view(view: id) -> id {
+//     let child_nsview = NSView::alloc(nil);
+//     let child_view = child_nsview.initWithFrame_(host_window_frame(view));
 
-    add_subview(view, child_view);
-    child_view
-}
+//     add_subview(view, child_view);
+//     child_view
+// }
 
-/// - (void)addSubview:(UIView *)view;
-pub unsafe fn add_subview(parent_id: id, child_id: id) {
-    msg_send![parent_id, addSubview:child_id];
-}
+// /// - (void)addSubview:(UIView *)view;
+// pub unsafe fn add_subview(parent_id: id, child_id: id) {
+//     msg_send![parent_id, addSubview:child_id];
+// }
 
-/// - (void)addChildWindow:(NSWindow *)childWin 
-///             ordered:(NSWindowOrderingMode)place;
-pub unsafe fn add_child_window(parent_id: id, child_id: id) {
-    msg_send![parent_id, addChildWindow:child_id ordered: NSWindowAbove];
-}
+// /// - (void)addChildWindow:(NSWindow *)childWin 
+// ///             ordered:(NSWindowOrderingMode)place;
+// pub unsafe fn add_child_window(parent_id: id, child_id: id) {
+//     msg_send![parent_id, addChildWindow:child_id ordered: NSWindowAbove];
+// }
 
 impl WindowContext {
 

@@ -31,6 +31,7 @@ mod gui;
 use gui::{Interface};
 
 mod conrod_context;
+mod cocoa_helpers;
 
 mod app;
 
@@ -72,8 +73,21 @@ impl Plugin for DDGui {
     }
 
     fn can_do(&self, can_do: CanDo) -> Supported {
-        info!("can do called within plugin: {:?}", can_do);
-        Supported::Other(0xBEEF0000 as isize)
+        info!("candooo {:?}", can_do);
+
+        let has_cockos_support = CanDo::Other("hasCockosViewAsConfig".to_string());
+
+        match can_do {
+            has_cockos_support => {
+                info!("Acknowledging hasCockosViewAsConfig support.");
+                Supported::Other(0xBEEF0000 as isize)
+            },
+            _ => Supported::Maybe,
+        }
+
+        // info!("candooo {:?}", can_do.into());
+
+        // Supported::Maybe
     }
 
     fn get_editor(&mut self) -> Option<&mut Editor> {

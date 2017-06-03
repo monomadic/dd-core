@@ -25,15 +25,20 @@ impl Editor for Interface {
 
     fn open(&mut self, window: *mut libc::c_void) {
         info!("VST plugin called open()");
-        match self.window {
-            Some(ref mut w) => { error!("VST called open but window already exists"); },
-            None => {
-                match WindowContext::new(window) {
-                    Ok(wc) => { info!("ok!"); self.window = Some(wc) },
-                    Err(why) => { error!("{:?}", why) }
-                }
-            }
+
+        match WindowContext::new(window) {
+            Ok(wc) => { info!("ok!"); self.window = Some(wc) },
+            Err(why) => { error!("{:?}", why) }
         }
+        // match self.window {
+        //     Some(ref mut w) => { error!("VST called open but window already exists"); },
+        //     None => {
+        //         match WindowContext::new(window) {
+        //             Ok(wc) => { info!("ok!"); self.window = Some(wc) },
+        //             Err(why) => { error!("{:?}", why) }
+        //         }
+        //     }
+        // }
     }
 
     fn close(&mut self) {
