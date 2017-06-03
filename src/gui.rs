@@ -28,7 +28,7 @@ impl Editor for Interface {
 
         match WindowContext::new(window) {
             Ok(wc) => { info!("ok!"); self.window = Some(wc) },
-            Err(why) => { error!("{:?}", why) }
+            Err(why) => { error!("Window spawn error: {:?}", why) }
         }
         // match self.window {
         //     Some(ref mut w) => { error!("VST called open but window already exists"); },

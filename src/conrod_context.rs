@@ -5,7 +5,7 @@ use winit;
 use conrod;
 use conrod::glium;
 use conrod::glium::GliumCreationError;
-use conrod::backend::glium::glium::glutin::{WindowBuilder, Window};
+use conrod::backend::glium::glium::glutin::{WindowBuilder, Window, Robustness};
 use conrod::backend::glium::glium::{DisplayBuild, Surface};
 
 use find_folder;
@@ -62,15 +62,20 @@ impl WindowContext {
         let wb = winit::WindowBuilder::new()
             // .with_min_dimensions(500, 300)
             // .with_max_dimensions(500, 300)
+            .with_visibility(true)
+            .with_transparency(false)
             .with_dimensions(500, 300)
             .with_parent(child_view as *mut libc::c_void);
 
         match WindowBuilder::from_winit_builder(wb)
             // .with_vsync()
             // .with_multisampling(8)
-            // .with_dimensions(500, 300)
+            .with_dimensions(500, 300)
+            .with_visibility(true)
+            .with_transparency(false)
+            .with_gl_robustness(Robustness::RobustLoseContextOnReset)
             .build_glium() {
-                Err(why) => Err(WindowError::GliumError),
+                Err(why) => { error!("Problem with build_glium(): {:?}", why); Err(WindowError::GliumError) },
                 Ok(display) => {
                     info!("Window spawned OK with conrod.");
                     // return Ok(WindowContext{ view: child_view as id });
