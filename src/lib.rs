@@ -30,9 +30,7 @@ extern crate winit;
 mod gui;
 use gui::{Interface};
 
-mod conrod_context;
-mod cocoa_helpers;
-
+mod window;
 mod app;
 
 struct DDGui {

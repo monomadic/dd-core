@@ -12,7 +12,8 @@ use find_folder;
 use image;
 use std;
 
-use cocoa_helpers::*;
+mod mac;
+use self::mac::*;
 
 pub use app::App;
 
