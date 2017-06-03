@@ -52,15 +52,31 @@ pub unsafe fn host_window_frame(view: id) -> NSRect {
     NSView::frame(view)
 }
 
+pub unsafe fn retain(view: id) {
+    msg_send![view, retain];
+}
+
+pub unsafe fn get_nswindow_for_nsview(view: id) -> id {
+    msg_send![view, window]
+}
+
+pub unsafe fn set_window_properties(window: id) {
+    msg_send![window, setOpaque:YES];
+    msg_send![window, setCanHide:YES];
+    msg_send![window, setHasShadow:NO];
+    msg_send![window, setReleasedWhenClosed:YES];
+}
+
 /// - (void)addSubview:(UIView *)view;
 pub unsafe fn add_subview(parent_id: id, child_id: id) {
+    // msg_send![parent_id, addSubview:child_id relativeTo:nil];
     msg_send![parent_id, addSubview:child_id];
 }
 
 /// - (void)addChildWindow:(NSWindow *)childWin 
 ///             ordered:(NSWindowOrderingMode)place;
 pub unsafe fn add_child_window(parent_id: id, child_id: id) {
-    msg_send![parent_id, addChildWindow:child_id ordered: NSWindowAbove];
+    msg_send![parent_id, addChildWindow:child_id ordered:NSWindowAbove];
 }
 
 pub unsafe fn class_name(object: id) -> String {
