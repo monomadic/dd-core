@@ -57,7 +57,7 @@ impl WindowContext {
         //     set_window_properties(ns_window);
         // }
 
-        let child_view: id = unsafe { add_child_view(handle as id) };
+        let child_view: id = unsafe { attach_component_to_parent(handle as id) };
         info!("added child_view. id: {:?}", child_view);
 
         let wb = winit::WindowBuilder::new()

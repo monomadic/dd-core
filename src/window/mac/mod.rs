@@ -36,13 +36,18 @@ pub struct CocoaWindow {
 //     child_button
 // }
 
-pub unsafe fn add_child_view(view: id) -> id {
+pub unsafe fn attach_component_to_parent(view: id) -> id {
     use cocoa::appkit::NSView;
 
-    let child_nsview = IdRef::new(NSView::alloc(nil));
+    // create and attach the child view.
+    let child_nsview = NSView::alloc(nil);
     let child_view = child_nsview.initWithFrame_(host_window_frame(view));
-
     add_subview(view, child_view);
+
+    // set its size and position.
+
+    // set it to visible.
+    // child_view.isVisible();
     child_view
 }
 
@@ -83,10 +88,9 @@ pub unsafe fn class_name(object: id) -> String {
     msg_send![object, class]
 }
 
-// pub unsafe fn stats(object: id) {
-//     info!("stats");
-//     info!("class: {}", class_name(object));
-// }
+pub fn print_size(rect: NSRect) {
+    info!("size: x:{} y:{} w:{} h:{}", rect.origin.x, rect.origin.y , rect.size.width, rect.size.height);
+}
 
 pub struct IdRef(id);
 
