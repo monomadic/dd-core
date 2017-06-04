@@ -20,7 +20,7 @@ impl Editor for Interface {
     }
 
     fn position(&self) -> (i32, i32) {
-        (500, 300)
+        (0, 0)
     }
 
     fn open(&mut self, window: *mut libc::c_void) {
