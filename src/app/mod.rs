@@ -1,3 +1,5 @@
+use winit;
+
 use conrod;
 use conrod::glium;
 use conrod::glium::GliumCreationError;
@@ -23,6 +25,46 @@ pub enum AppError {
     GetWindowFail,
     GetInnerSizeFail,
     LoadRendererFail,
+}
+
+#[derive(Debug)]
+pub enum WindowError {
+    GliumError
+}
+
+use std::os::raw::c_void;
+
+pub fn create_app(handle: *mut c_void) -> Result<App, WindowError> {
+    // info!("Building window with conrod.");
+
+    // log_panics::init();
+
+    let wb = winit::WindowBuilder::new()
+        .with_visibility(true)
+        .with_transparency(false)
+        .with_dimensions(500, 300)
+        .with_parent(handle);
+
+    match WindowBuilder::from_winit_builder(wb)
+        // .with_vsync()
+        // .with_multisampling(8)
+        // .with_dimensions(500, 300)
+        // .with_visibility(true)
+        // .with_transparency(false)
+        // .with_gl_robustness(Robustness::RobustLoseContextOnReset)
+        .build_glium() {
+            Err(why) => { error!("Problem with build_glium(): {:?}", why); Err(WindowError::GliumError) },
+            Ok(display) => {
+                info!("Window spawned OK with conrod.");
+
+                let mut app = App::new(display);
+
+                match app {
+                    Ok(a) => Ok(a),
+                    Err(why) => { error!("{:?}", why); panic!("{:?}", why) }
+                }
+            }
+        }
 }
 
 impl App {
@@ -52,23 +94,16 @@ impl App {
 
     pub fn draw(&mut self) {
         let mut target = self.display.draw();
-        // let mut rng = rand::thread_rng();
 
-        // let r = rng.gen::<f32>();
-        // let g = rng.gen::<f32>();
-        // let b = rng.gen::<f32>();
+        target.clear_color(0.0, 0.0, 0.0, 1.0); // set display to black
 
-        // target.clear_color(r, g, b, 1.0);
-
-        // self.renderer.draw(&self.display, &mut target, &self.image_map).unwrap();
+        self.renderer.draw(&self.display, &mut target, &self.image_map).unwrap();
 
         set_widgets(self.ui.set_widgets(), &mut self.ids);
 
         // Render the `Ui` and then display it on the screen.
         if let Some(primitives) = self.ui.draw_if_changed() {
             self.renderer.fill(&self.display, primitives, &self.image_map);
-            // let mut target = self.display.draw();
-            target.clear_color(0.0, 0.0, 0.0, 1.0);
             self.renderer.draw(&self.display, &mut target, &self.image_map).unwrap();
         }
 
@@ -92,15 +127,16 @@ impl App {
 fn set_widgets(ref mut ui: conrod::UiCell, ids: &mut Ids) {
     use conrod::{color, widget, Colorable, Labelable, Positionable, Sizeable, Widget};
 
-    let floating = widget::Canvas::new().floating(true).w_h(110.0, 150.0).label_color(color::RED);
-
     let body = Canvas::new()
-        .color(color::CHARCOAL)
-        .border(0.0)
+        .color(color::BLUE)
+        .border(0.5)
+        .w_h(110.0, 150.0)
         .set(ids.body, ui);
 
+    // let floating = widget::Canvas::new().floating(true).w_h(110.0, 150.0).label_color(color::RED);
+
     let button = widget::Button::new().color(color::RED).w_h(30.0, 30.0);
-    for _click in button.clone().middle_of(ids.floating_a).set(ids.bing, ui) {
+    for _click in button.floating(true).set(ids.button, ui) {
         info!("Bing!");
     }
 }
@@ -110,8 +146,7 @@ widget_ids! {
         // Root IDs
         // root,
         body,
-        bing,
-        floating_a,
-        floating,
+        button,
+        // floating,
     }
 }

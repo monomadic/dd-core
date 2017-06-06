@@ -1,11 +1,16 @@
 use vst2::editor::{Editor, KnobMode, KeyCode};
 
 use libc;
-use window::{WindowContext};
+use std::os::raw::c_void;
+
+// use window::{WindowContext};
+
+use app;
+use app::create_app;
 
 pub struct Interface {
     is_open: bool,
-    window: Option<WindowContext>,
+    window: Option<app::App>,
 }
 
 impl Interface {
@@ -26,7 +31,7 @@ impl Editor for Interface {
     fn open(&mut self, window: *mut libc::c_void) {
         info!("VST plugin called open()");
 
-        match WindowContext::new(window) {
+        match create_app(window as *mut c_void) {
             Ok(wc) => {
                 info!("Window created ok in editor.");
                 self.window = Some(wc);
@@ -73,7 +78,7 @@ impl Editor for Interface {
 
     fn idle(&mut self) {
         match self.window {
-            Some(ref mut w) => { w.update(); },
+            Some(ref mut w) => { w.draw(); },
             None => (),
         }
     }

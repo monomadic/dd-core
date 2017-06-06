@@ -10,15 +10,11 @@ extern crate log_panics;
 use simplelog::*;
 use std::fs::File;
 
-use vst2::api::Supported;
 use vst2::buffer::AudioBuffer;
-use vst2::plugin::{Category, Plugin, Info, CanDo};
+use vst2::plugin::{Category, Plugin, Info};
 use vst2::editor::Editor;
 
 extern crate libc;
-
-#[macro_use] extern crate objc;
-extern crate cocoa;
 
 #[macro_use] extern crate conrod;
 
@@ -30,7 +26,6 @@ extern crate winit;
 mod gui;
 use gui::{Interface};
 
-mod window;
 mod app;
 
 struct DDGui {
@@ -68,24 +63,6 @@ impl Plugin for DDGui {
 
             ..Info::default()
         }
-    }
-
-    fn can_do(&self, can_do: CanDo) -> Supported {
-        info!("candooo {:?}", can_do);
-
-        let has_cockos_support = CanDo::Other("hasCockosViewAsConfig".to_string());
-
-        match can_do {
-            has_cockos_support => {
-                info!("Acknowledging hasCockosViewAsConfig support.");
-                Supported::Other(0xBEEF0000 as isize)
-            },
-            _ => Supported::Maybe,
-        }
-
-        // info!("candooo {:?}", can_do.into());
-
-        // Supported::Maybe
     }
 
     fn get_editor(&mut self) -> Option<&mut Editor> {
