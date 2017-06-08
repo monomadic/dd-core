@@ -2,10 +2,10 @@ use conrod;
 use conrod::glium;
 use conrod::backend::glium::glium::{Surface};
 
-use conrod::{color, Borderable};
+use conrod::{Borderable};
 use conrod::widget::*;
 
-use vst::plugin::VSTPlugin;
+// use vst::plugin::VSTPlugin;
 
 use vst2::plugin::HostCallback;
 
@@ -53,13 +53,21 @@ impl ConrodWindow {
     }
 
     pub fn draw(&mut self, host: &mut HostCallback) {
-        let mut target = self.display.draw();
 
-        target.clear_color(0.0, 0.0, 0.0, 1.0); // set display to black
-
-        self.renderer.draw(&self.display, &mut target, &self.image_map).unwrap();
+        for event in self.display.poll_events() {
+			// Use the `winit` backend feature to convert the winit event to a conrod one.
+            if let Some(event) = conrod::backend::winit::convert(event.clone(), &self.display) {
+                info!("-- event: {:?}", event);
+                self.ui.handle_event(event);
+            }
+        };
 
         set_widgets(self.ui.set_widgets(), &mut self.ids, host);
+
+        let mut target = self.display.draw();
+
+        // self.renderer.draw(&self.display, &mut target, &self.image_map).unwrap();
+
 
         // Render the `Ui` and then display it on the screen.
         if let Some(primitives) = self.ui.draw_if_changed() {
@@ -85,7 +93,7 @@ impl ConrodWindow {
 }
 
 fn set_widgets(ref mut ui: conrod::UiCell, ids: &mut Ids, host: &mut HostCallback) {
-    use conrod::{color, widget, Colorable, Sizeable, Widget};
+    use conrod::{color, widget, Labelable, Colorable, Sizeable, Widget};
 
     Canvas::new()
         .color(color::BLUE)
@@ -95,7 +103,7 @@ fn set_widgets(ref mut ui: conrod::UiCell, ids: &mut Ids, host: &mut HostCallbac
 
     // let floating = widget::Canvas::new().floating(true).w_h(110.0, 150.0).label_color(color::RED);
 
-    let button = widget::Button::new().color(color::RED).w_h(30.0, 30.0);
+    let button = widget::Button::new().label("clickkk").color(color::RED).w_h(60.0, 30.0);
     for _click in button.floating(true).set(ids.button, ui) {
         info!("Bing!");
     }
@@ -103,10 +111,7 @@ fn set_widgets(ref mut ui: conrod::UiCell, ids: &mut Ids, host: &mut HostCallbac
 
 widget_ids! {
     pub struct Ids {
-        // Root IDs
-        // root,
         body,
         button,
-        // floating,
     }
 }
