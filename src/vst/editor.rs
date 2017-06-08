@@ -3,13 +3,13 @@ use vst2::editor::{Editor, KnobMode, KeyCode};
 use libc;
 use std::os::raw::c_void;
 
-// use window::{WindowContext};
+use window::conrod_window::ConrodWindow;
 
 use app;
-use app::create_app;
+use window::init::create_window;
 
 pub struct Interface {
-    window: Option<app::App>,
+    window: Option<ConrodWindow>,
 }
 
 impl Interface {
@@ -31,7 +31,7 @@ impl Editor for Interface {
         info!("VST plugin called open()");
         // info!("id: {}", window as i32);
 
-        match create_app(window as *mut c_void) {
+        match create_window(window as *mut c_void) {
             Ok(wc) => {
                 info!("Window created ok in editor.");
                 self.window = Some(wc);
