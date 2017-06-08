@@ -9,13 +9,12 @@ use app;
 use app::create_app;
 
 pub struct Interface {
-    is_open: bool,
     window: Option<app::App>,
 }
 
 impl Interface {
     pub fn new() -> Interface {
-        Interface{ is_open: false, window: None }
+        Interface{ window: None }
     }
 }
 
@@ -30,38 +29,24 @@ impl Editor for Interface {
 
     fn open(&mut self, window: *mut libc::c_void) {
         info!("VST plugin called open()");
+        // info!("id: {}", window as i32);
 
         match create_app(window as *mut c_void) {
             Ok(wc) => {
                 info!("Window created ok in editor.");
                 self.window = Some(wc);
-                self.is_open = true;
             },
             Err(why) => { error!("{:?}", why) }
         }
-        // match self.window {
-        //     Some(ref mut w) => { error!("VST called open but window already exists"); },
-        //     None => {
-        //         match WindowContext::new(window) {
-        //             Ok(wc) => {
-        //                 info!("Window created ok in editor.");
-        //                 self.window = Some(wc);
-        //                 self.is_open = true;
-        //             },
-        //             Err(why) => { error!("{:?}", why) }
-        //         }
-        //     }
-        // }
     }
 
     fn close(&mut self) {
         info!("VST plugin called close()");
-        self.is_open = false;
         // self.window = None;
     }
 
     fn is_open(&mut self) -> bool {
-        self.is_open
+        self.window.is_some()
     }
 
     /// Set the knob mode for this editor (if supported by host).
