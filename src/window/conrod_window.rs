@@ -1,16 +1,16 @@
-use winit;
-
 use conrod;
 use conrod::glium;
-use conrod::glium::GliumCreationError;
-use conrod::backend::glium::glium::glutin::{WindowBuilder, Window};
-use conrod::backend::glium::glium::{DisplayBuild, Surface};
+use conrod::backend::glium::glium::{Surface};
 
-use conrod::{color, Colorable, Labelable, Positionable, Sizeable, Widget, Borderable};
+use conrod::{color, Borderable};
 use conrod::widget::*;
 
-extern crate rand;
-use self::rand::Rng;
+use vst::plugin::VSTPlugin;
+
+use vst2::plugin::HostCallback;
+
+// extern crate rand;
+// use self::rand::Rng;
 
 #[derive(Debug)]
 pub enum ConrodWindowError {
@@ -52,14 +52,14 @@ impl ConrodWindow {
         Ok(ConrodWindow{ui: ui, display: window, image_map: image_map, renderer: renderer, ids: ids})
     }
 
-    pub fn draw(&mut self) {
+    pub fn draw(&mut self, host: &mut HostCallback) {
         let mut target = self.display.draw();
 
         target.clear_color(0.0, 0.0, 0.0, 1.0); // set display to black
 
         self.renderer.draw(&self.display, &mut target, &self.image_map).unwrap();
 
-        set_widgets(self.ui.set_widgets(), &mut self.ids);
+        set_widgets(self.ui.set_widgets(), &mut self.ids, host);
 
         // Render the `Ui` and then display it on the screen.
         if let Some(primitives) = self.ui.draw_if_changed() {
@@ -84,7 +84,7 @@ impl ConrodWindow {
     }
 }
 
-fn set_widgets(ref mut ui: conrod::UiCell, ids: &mut Ids) {
+fn set_widgets(ref mut ui: conrod::UiCell, ids: &mut Ids, host: &mut HostCallback) {
     use conrod::{color, widget, Colorable, Sizeable, Widget};
 
     Canvas::new()

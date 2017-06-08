@@ -19,5 +19,5 @@ mod vst;
 mod app;
 mod window;
 
-use vst::plugin::DDGui;
-plugin_main!(DDGui);
+use vst::plugin::VSTPlugin;
+plugin_main!(VSTPlugin);

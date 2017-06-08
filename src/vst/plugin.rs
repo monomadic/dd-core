@@ -1,34 +1,38 @@
 use vst2::buffer::AudioBuffer;
-use vst2::plugin::{Category, Plugin, Info};
+use vst2::plugin::{Category, Plugin, Info, HostCallback};
 use vst2::editor::Editor;
+use vst2::host::Host;
 
 use simplelog::*;
 use std::fs::File;
 
-use vst::editor::Interface;
+// use vst::editor::Interface;
+use window::conrod_window::ConrodWindow;
 
-pub struct DDGui {
+pub struct VSTPlugin {
     threshold: f32,
     gain: f32,
-    editor: Interface,
+    pub window: Option<ConrodWindow>,
+    pub host: HostCallback,
 }
 
-impl Default for DDGui {
-    fn default() -> DDGui {
+impl Default for VSTPlugin {
+    fn default() -> VSTPlugin {
         let _ = CombinedLogger::init(
             vec![
                 WriteLogger::new(LogLevelFilter::Info, Config::default(), File::create("/tmp/simplesynth.log").unwrap()),
             ]
         );
-        DDGui {
+        VSTPlugin {
             threshold: 1.0, // VST parameters are always 0.0 to 1.0
             gain: 1.0,
-            editor: Interface::new(),
+            window: None,
+            host: Default::default(),
         }
     }
 }
 
-impl Plugin for DDGui {
+impl Plugin for VSTPlugin {
     fn get_info(&self) -> Info {
         Info {
             name: "DDConrod2".to_string(),
@@ -45,7 +49,7 @@ impl Plugin for DDGui {
     }
 
     fn get_editor(&mut self) -> Option<&mut Editor> {
-        Some(&mut self.editor)
+        Some(self)
     }
 
     fn get_parameter(&self, index: i32) -> f32 {
