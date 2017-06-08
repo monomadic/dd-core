@@ -1,3 +1,3 @@
 pub mod init;
-pub mod conrod_window;
+pub mod window;
 pub mod events;

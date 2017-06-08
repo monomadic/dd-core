@@ -5,7 +5,7 @@ use conrod::backend::glium::glium::DisplayBuild;
 
 use std::os::raw::c_void;
 
-use window::conrod_window::ConrodWindow;
+use window::window::ConrodWindow;
 
 #[derive(Debug)]
 pub enum WindowError {

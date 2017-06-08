@@ -6,8 +6,7 @@ use vst2::host::Host;
 use simplelog::*;
 use std::fs::File;
 
-// use vst::editor::Interface;
-use window::conrod_window::ConrodWindow;
+use window::window::ConrodWindow;
 
 pub struct VSTPlugin {
     threshold: f32,

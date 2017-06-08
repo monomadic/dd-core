@@ -1,16 +1,7 @@
 use conrod;
 use conrod::glium;
-// use conrod::backend::glium::glium::{Surface};
-
-// use conrod::{Borderable};
-// use conrod::widget::*;
-
-// use vst::plugin::VSTPlugin;
 
 use vst2::plugin::HostCallback;
-
-// extern crate rand;
-// use self::rand::Rng;
 
 use app::ui::set_widgets;
 use app::ui::Ids;
@@ -39,47 +30,67 @@ impl ConrodWindow {
             .and_then({|window|
                 window.get_inner_size().ok_or(ConrodWindowError::GetInnerSizeFail)
             }));
-        
-        info!("size : {}x{}", width, height);
-
-        info!("framebuffer: {:?}", window.get_framebuffer_dimensions());
 
         let mut ui = conrod::UiBuilder::new([width as f64, height as f64]).build();
 
         let renderer = match conrod::backend::glium::Renderer::new(&window) {
             Ok(r) => r,
-            Err(e) => { error!("Error creating Renderer: {:?}", e); return Err(ConrodWindowError::LoadRendererFail) },
+            Err(e) => { return Err(ConrodWindowError::LoadRendererFail) },
         };
 
         let image_map = conrod::image::Map::new();
         let ids = Ids::new(ui.widget_id_generator());
+
+        let cw = ConrodWindow{ui: ui, display: window, image_map: image_map, renderer: renderer, ids: ids};
+
+        // std::thread::spawn(move || draw(cw, default::Default()));
         
-        Ok(ConrodWindow{ui: ui, display: window, image_map: image_map, renderer: renderer, ids: ids})
+        Ok(cw)
     }
 
     pub fn draw(&mut self, host: &mut HostCallback) {
 
-        let mut event_loop = EventLoop::new();
+        let mut events: Vec<_> = self.display.poll_events().collect();
 
-        for event in event_loop.next(&self.display) {
+        // Send any relevant events to the conrod thread.
+        for event in events {
 
             // Use the `winit` backend feature to convert the winit event to a conrod one.
             if let Some(event) = conrod::backend::winit::convert(event.clone(), &self.display) {
-                self.ui.handle_event(event);
-                event_loop.needs_update();
+                // event_tx.send(event).unwrap();
+                info!(" -- event:: {:?}", event);
             }
 
-            // info!(" -- event: {:?}", event);
-
-            // match event {
-            //     // Break from the loop upon `Escape`.
-            //     glium::glutin::Event::KeyboardInput(_, _, Some(glium::glutin::VirtualKeyCode::Escape)) |
-            //     // glium::glutin::Event::Closed =>
-            //     //     break 'main,
-            //     // _ => {},
-            // }
-            
+            match event {
+                // Break from the loop upon `Escape`.
+                glium::glutin::Event::KeyboardInput(_, _, Some(glium::glutin::VirtualKeyCode::Escape)) |
+                glium::glutin::Event::Closed => break,
+                _ => {},
+            }
         }
+
+
+        // let mut event_loop = EventLoop::new();
+
+        // for event in event_loop.next(&self.display) {
+
+        //     // Use the `winit` backend feature to convert the winit event to a conrod one.
+        //     if let Some(event) = conrod::backend::winit::convert(event.clone(), &self.display) {
+        //         self.ui.handle_event(event);
+        //         event_loop.needs_update();
+        //     }
+
+        //     // info!(" -- event: {:?}", event);
+
+        //     // match event {
+        //     //     // Break from the loop upon `Escape`.
+        //     //     glium::glutin::Event::KeyboardInput(_, _, Some(glium::glutin::VirtualKeyCode::Escape)) |
+        //     //     // glium::glutin::Event::Closed =>
+        //     //     //     break 'main,
+        //     //     // _ => {},
+        //     // }
+            
+        // }
 
 
         // for event in self.display.poll_events() {
