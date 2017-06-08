@@ -24,6 +24,7 @@ pub fn create_window(handle: *mut c_void) -> Result<ConrodWindow, WindowError> {
         .with_parent(handle);
 
     match WindowBuilder::from_winit_builder(wb)
+        .with_decorations(false)
         // .with_vsync()
         // .with_multisampling(8)
         // .with_dimensions(500, 300)

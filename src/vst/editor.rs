@@ -51,7 +51,6 @@ impl Editor for VSTPlugin {
 
     fn idle(&mut self) {
 		if let Some(ref mut window) = self.window {
-            info!("idle()");
 			window.draw(&mut self.host);
 		}
     }

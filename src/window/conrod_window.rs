@@ -12,6 +12,11 @@ use vst2::plugin::HostCallback;
 // extern crate rand;
 // use self::rand::Rng;
 
+use app::ui::set_widgets;
+use app::ui::Ids;
+
+use window::events::EventLoop;
+
 #[derive(Debug)]
 pub enum ConrodWindowError {
     GetWindowFail,
@@ -54,13 +59,36 @@ impl ConrodWindow {
 
     pub fn draw(&mut self, host: &mut HostCallback) {
 
-        for event in self.display.poll_events() {
-			// Use the `winit` backend feature to convert the winit event to a conrod one.
+        let mut event_loop = EventLoop::new();
+
+        for event in event_loop.next(&self.display) {
+
+            // Use the `winit` backend feature to convert the winit event to a conrod one.
             if let Some(event) = conrod::backend::winit::convert(event.clone(), &self.display) {
-                info!("-- event: {:?}", event);
                 self.ui.handle_event(event);
+                event_loop.needs_update();
             }
-        };
+
+            info!(" -- event: {:?}", event);
+
+            // match event {
+            //     // Break from the loop upon `Escape`.
+            //     glium::glutin::Event::KeyboardInput(_, _, Some(glium::glutin::VirtualKeyCode::Escape)) |
+            //     // glium::glutin::Event::Closed =>
+            //     //     break 'main,
+            //     // _ => {},
+            // }
+            
+        }
+
+
+        // for event in self.display.poll_events() {
+		// 	// Use the `winit` backend feature to convert the winit event to a conrod one.
+        //     if let Some(event) = conrod::backend::winit::convert(event.clone(), &self.display) {
+        //         info!("-- event: {:?}", event);
+        //         self.ui.handle_event(event);
+        //     }
+        // };
 
         set_widgets(self.ui.set_widgets(), &mut self.ids, host);
 
@@ -89,29 +117,5 @@ impl ConrodWindow {
         //         _ => ()
         //     }
         // }
-    }
-}
-
-fn set_widgets(ref mut ui: conrod::UiCell, ids: &mut Ids, host: &mut HostCallback) {
-    use conrod::{color, widget, Labelable, Colorable, Sizeable, Widget};
-
-    Canvas::new()
-        .color(color::BLUE)
-        .border(0.5)
-        .w_h(110.0, 150.0)
-        .set(ids.body, ui);
-
-    // let floating = widget::Canvas::new().floating(true).w_h(110.0, 150.0).label_color(color::RED);
-
-    let button = widget::Button::new().label("clickkk").color(color::RED).w_h(60.0, 30.0);
-    for _click in button.floating(true).set(ids.button, ui) {
-        info!("Bing!");
-    }
-}
-
-widget_ids! {
-    pub struct Ids {
-        body,
-        button,
     }
 }
