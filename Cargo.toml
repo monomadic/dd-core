@@ -14,7 +14,7 @@ log-panics = "1.1.0"
 
 [lib]
 name = "dd_conrod"
-crate-type = ["dylib"]
+crate-type = ["cdylib"]
 
 [replace]
 "winit:0.5.11" = { git = "https://github.com/robsaunders/winit-vst" }

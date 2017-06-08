@@ -36,7 +36,7 @@ pub fn create_window(handle: *mut c_void) -> Result<ConrodWindow, WindowError> {
             Ok(display) => {
                 info!("Window spawned OK with conrod.");
 
-                let mut app = ConrodWindow::new(display);
+                let app = ConrodWindow::new(display);
 
                 match app {
                     Ok(a) => Ok(a),

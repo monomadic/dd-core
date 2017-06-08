@@ -1,9 +1,9 @@
 use conrod;
 use conrod::glium;
-use conrod::backend::glium::glium::{Surface};
+// use conrod::backend::glium::glium::{Surface};
 
-use conrod::{Borderable};
-use conrod::widget::*;
+// use conrod::{Borderable};
+// use conrod::widget::*;
 
 // use vst::plugin::VSTPlugin;
 
@@ -69,7 +69,7 @@ impl ConrodWindow {
                 event_loop.needs_update();
             }
 
-            info!(" -- event: {:?}", event);
+            // info!(" -- event: {:?}", event);
 
             // match event {
             //     // Break from the loop upon `Escape`.
