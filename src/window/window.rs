@@ -3,10 +3,8 @@ use conrod::glium;
 
 use vst2::plugin::HostCallback;
 
-use app::ui::set_widgets;
-use app::ui::Ids;
-
-use window::events::EventLoop;
+use app::ui::*;
+use app::event::*;
 
 #[derive(Debug)]
 pub enum ConrodWindowError {
@@ -50,83 +48,40 @@ impl ConrodWindow {
 
     pub fn draw(&mut self, host: &mut HostCallback) {
 
-        let mut events: Vec<_> = self.display.poll_events().collect();
+        loop {
+            let events: Vec<_> = self.display.poll_events().collect();
 
-        // Send any relevant events to the conrod thread.
-        for event in events {
+            // Send any relevant events to the conrod thread.
+            for event in events {
 
-            // Use the `winit` backend feature to convert the winit event to a conrod one.
-            if let Some(event) = conrod::backend::winit::convert(event.clone(), &self.display) {
-                // event_tx.send(event).unwrap();
-                info!(" -- event:: {:?}", event);
+                ui_event(event);
+
+                // // Use the `winit` backend feature to convert the winit event to a conrod one.
+                // if let Some(event) = conrod::backend::winit::convert(event.clone(), &self.display) {
+                //     // event_tx.send(event).unwrap();
+                //     // info!(" -- event:: {:?}", event);
+                // }
+
+                // match event {
+                //     // Break from the loop upon `Escape`.
+                //     // glium::glutin::Event::KeyboardInput(_, _, Some(glium::glutin::VirtualKeyCode::Escape)) |
+                //     glium::glutin::Event::Closed => { return; },
+                //     // _ => { info!(" -- another {:?}", event)},
+                //     _ => (),
+                // }
             }
 
-            match event {
-                // Break from the loop upon `Escape`.
-                glium::glutin::Event::KeyboardInput(_, _, Some(glium::glutin::VirtualKeyCode::Escape)) |
-                glium::glutin::Event::Closed => break,
-                _ => {},
+            set_widgets(self.ui.set_widgets(), &mut self.ids, host);
+
+            let mut target = self.display.draw();
+
+            // Render the `Ui` and then display it on the screen.
+            if let Some(primitives) = self.ui.draw_if_changed() {
+                self.renderer.fill(&self.display, primitives, &self.image_map);
+                self.renderer.draw(&self.display, &mut target, &self.image_map).unwrap();
             }
+
+            target.finish().unwrap();
         }
-
-
-        // let mut event_loop = EventLoop::new();
-
-        // for event in event_loop.next(&self.display) {
-
-        //     // Use the `winit` backend feature to convert the winit event to a conrod one.
-        //     if let Some(event) = conrod::backend::winit::convert(event.clone(), &self.display) {
-        //         self.ui.handle_event(event);
-        //         event_loop.needs_update();
-        //     }
-
-        //     // info!(" -- event: {:?}", event);
-
-        //     // match event {
-        //     //     // Break from the loop upon `Escape`.
-        //     //     glium::glutin::Event::KeyboardInput(_, _, Some(glium::glutin::VirtualKeyCode::Escape)) |
-        //     //     // glium::glutin::Event::Closed =>
-        //     //     //     break 'main,
-        //     //     // _ => {},
-        //     // }
-            
-        // }
-
-
-        // for event in self.display.poll_events() {
-		// 	// Use the `winit` backend feature to convert the winit event to a conrod one.
-        //     if let Some(event) = conrod::backend::winit::convert(event.clone(), &self.display) {
-        //         info!("-- event: {:?}", event);
-        //         self.ui.handle_event(event);
-        //     }
-        // };
-
-        set_widgets(self.ui.set_widgets(), &mut self.ids, host);
-
-        let mut target = self.display.draw();
-
-        // self.renderer.draw(&self.display, &mut target, &self.image_map).unwrap();
-
-
-        // Render the `Ui` and then display it on the screen.
-        if let Some(primitives) = self.ui.draw_if_changed() {
-            self.renderer.fill(&self.display, primitives, &self.image_map);
-            self.renderer.draw(&self.display, &mut target, &self.image_map).unwrap();
-        }
-
-        target.finish().unwrap();
-
-
-        // Collect all pending events.
-        // let mut events = Vec::new();
-        // events.extend(self.display.poll_events());
-
-        // for event in events {
-        //     info!("-- event {:?}", event);
-        //     match event {
-        //         "Closed" => { info!(" closed."); },
-        //         _ => ()
-        //     }
-        // }
     }
 }
