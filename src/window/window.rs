@@ -59,8 +59,8 @@ impl ConrodWindow {
                 match event { glium::glutin::Event::Closed => { return; }, _ => () };
 
                 if let Some(e) = conrod::backend::winit::convert(event.clone(), &self.display) {
+                    ui_event(e.clone());
                     self.ui.handle_event(e);
-                    ui_event(e);
                 }
             }
             
