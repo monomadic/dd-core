@@ -49,28 +49,21 @@ impl ConrodWindow {
     pub fn draw(&mut self, host: &mut HostCallback) {
 
         loop {
+
             let events: Vec<_> = self.display.poll_events().collect();
 
             // Send any relevant events to the conrod thread.
             for event in events {
 
-                ui_event(event);
+                // Break from the loop upon window close.
+                match event { glium::glutin::Event::Closed => { return; }, _ => () };
 
-                // // Use the `winit` backend feature to convert the winit event to a conrod one.
-                // if let Some(event) = conrod::backend::winit::convert(event.clone(), &self.display) {
-                //     // event_tx.send(event).unwrap();
-                //     // info!(" -- event:: {:?}", event);
-                // }
-
-                // match event {
-                //     // Break from the loop upon `Escape`.
-                //     // glium::glutin::Event::KeyboardInput(_, _, Some(glium::glutin::VirtualKeyCode::Escape)) |
-                //     glium::glutin::Event::Closed => { return; },
-                //     // _ => { info!(" -- another {:?}", event)},
-                //     _ => (),
-                // }
+                if let Some(e) = conrod::backend::winit::convert(event.clone(), &self.display) {
+                    self.ui.handle_event(e);
+                    ui_event(e);
+                }
             }
-
+            
             set_widgets(self.ui.set_widgets(), &mut self.ids, host);
 
             let mut target = self.display.draw();

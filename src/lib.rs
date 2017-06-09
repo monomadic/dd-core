@@ -21,3 +21,5 @@ mod window;
 
 use vst::plugin::VSTPlugin;
 plugin_main!(VSTPlugin);
+
+extern crate rand;
