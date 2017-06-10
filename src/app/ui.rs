@@ -9,7 +9,8 @@ use vst2::host::Host;
 widget_ids! {
     pub struct Ids {
         body,
-        slider,
+        gain_slider,
+        threshold_slider,
     }
 }
 
@@ -25,17 +26,31 @@ pub fn set_widgets(ref mut ui: conrod::UiCell, ids: &mut Ids, app: &mut AppConfi
         .border(0.1)
         .set(ids.body, ui);
 
-    // slider
+    // gain_slider
 	if let Some(val) = widget::Slider::new(app.params.params[0].value, 0.0, 1.0)
 		.w_h(300.0, 30.0)
-		.middle_of(ids.body)
-		.rgb(0.5, 0.3, 0.6)
+		.x_y(0.0, 50.0)
+		.color(color::LIGHT_BLUE)
 		.border(1.0)
 		// .label(&label)
 		.label_color(color::WHITE)
-        .set(ids.slider, ui) {
+        .set(ids.gain_slider, ui) {
             app.params.params[0].value = val;
             info!("vst version: {:?}", app.host.vst_version());
             app.host.automate(0 as i32, app.params.params[0].value);
+        }
+
+    // threshold_slider
+	if let Some(val) = widget::Slider::new(app.params.params[1].value, 0.0, 1.0)
+		.w_h(300.0, 30.0)
+		.x_y(0.0, -50.0)
+		.color(color::LIGHT_PURPLE)
+		.border(1.0)
+		// .label(&label)
+		.label_color(color::WHITE)
+        .set(ids.threshold_slider, ui) {
+            app.params.params[1].value = val;
+            info!("vst version: {:?}", app.host.vst_version());
+            app.host.automate(1 as i32, app.params.params[1].value);
         }
 }
