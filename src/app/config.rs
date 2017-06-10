@@ -15,20 +15,4 @@ impl AppConfig {
             params: Params::default(),
         }
     }
-    // pub fn add_param(&mut self, param: Param) {
-    //     self.params.
-    // }
-
-    // pub fn new() -> Self {
-    //     AppConfig {
-    //         params: params(),
-    //         host: Default::default(),
-    //     }
-    // }
 }
-
-// impl AppConfig {
-//     pub fn get_parameter_name(&self, index: usize) -> String {
-//         self.params[index].name.clone()
-//     }
-// }

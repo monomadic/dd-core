@@ -1,13 +1,12 @@
 use conrod;
 use conrod::glium;
-// use winit;
+// glium::glutin::Event;
 
 pub fn ui_event(event: conrod::event::Input) {
     match event {
-        // Break from the loop upon `Escape`.
         // glium::glutin::Event::KeyboardInput(_, _, Some(glium::glutin::VirtualKeyCode::Escape)) |
         // glium::glutin::Event::Closed => { return; },
-        // _ => { info!(" -- another {:?}", event)},
+        // _ => { info!(" -- glium event {:?}", event)},
         _ => (),
     }
 }

@@ -26,8 +26,6 @@ impl Editor for VSTPlugin {
             },
             Err(why) => { error!("{:?}", why) }
         }
-
-        // std::thread::spawn(move || run_conrod(rust_logo, event_rx, render_tx, window_proxy));
     }
 
     fn close(&mut self) {
@@ -53,20 +51,7 @@ impl Editor for VSTPlugin {
 
     fn idle(&mut self) {
 		if let Some(ref mut window) = self.window {
-            // for event in window.display.poll_events() {
-            //     info!("{:?}", event);
-
-            //     // match event {
-            //     //     winit::Event::Closed => {
-            //     //         close_event = true;
-            //     //         break
-            //     //     },
-            //     //     _ => ()
-            //     // }
-
-            // }
             window.draw(&mut self.app);
-
 		}
     }
 }

@@ -4,7 +4,6 @@ extern crate vst2;
 #[macro_use] 
 extern crate log;
 extern crate simplelog;
-extern crate log_panics;
 
 extern crate libc;
 

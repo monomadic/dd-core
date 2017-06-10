@@ -13,9 +13,6 @@ pub enum WindowError {
 }
 
 pub fn create_window(handle: *mut c_void) -> Result<ConrodWindow, WindowError> {
-    // info!("Building window with conrod.");
-
-    // log_panics::init();
 
     let wb = winit::WindowBuilder::new()
         .with_visibility(true)
