@@ -9,9 +9,12 @@ pub struct AppConfig {
 }
 
 impl AppConfig {
-    // pub fn new() -> Self {
-    //     AppConfig{ params: params() }
-    // }
+    pub fn new(host: HostCallback) -> Self {
+        AppConfig {
+            host: host,
+            params: Params::default(),
+        }
+    }
     // pub fn add_param(&mut self, param: Param) {
     //     self.params.
     // }

@@ -10,7 +10,7 @@ use window::window::ConrodWindow;
 
 use app::config::*;
 
-// #[derive(Default)]
+#[derive(Default)]
 pub struct VSTPlugin {
     threshold: f32,
     gain: f32,
@@ -18,25 +18,34 @@ pub struct VSTPlugin {
     pub app: AppConfig,
 }
 
-impl Default for VSTPlugin {
-    fn default() -> VSTPlugin {
-        use log_panics;
-        log_panics::init;
-        let _ = CombinedLogger::init(
-            vec![
-                WriteLogger::new(LogLevelFilter::Info, Config::default(), File::create("/tmp/simplesynth.log").unwrap()),
-            ]
-        );
+// impl Default for VSTPlugin {
+//     fn default() -> VSTPlugin {
+//         use log_panics;
+//         log_panics::init;
+//         let _ = CombinedLogger::init(
+//             vec![
+//                 WriteLogger::new(LogLevelFilter::Info, Config::default(), File::create("/tmp/simplesynth.log").unwrap()),
+//             ]
+//         );
+//         VSTPlugin {
+//             threshold: 1.0, // VST parameters are always 0.0 to 1.0
+//             gain: 1.0,
+//             window: None,
+//             app: AppConfig::default(),
+//         }
+//     }
+// }
+
+impl Plugin for VSTPlugin {
+    fn new(host: HostCallback) -> Self {
         VSTPlugin {
             threshold: 1.0, // VST parameters are always 0.0 to 1.0
             gain: 1.0,
             window: None,
-            app: AppConfig::default(),
+            app: AppConfig::new(host),
         }
     }
-}
 
-impl Plugin for VSTPlugin {
     fn get_info(&self) -> Info {
         Info {
             name: "DDConrod".to_string(),

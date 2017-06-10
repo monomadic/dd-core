@@ -35,7 +35,7 @@ pub fn set_widgets(ref mut ui: conrod::UiCell, ids: &mut Ids, app: &mut AppConfi
 		.label_color(color::WHITE)
         .set(ids.slider, ui) {
             app.params.params[0].value = val;
-            panic!("hihii");
-            // app.host.automate(0 as i32, app.params.params[0].value);
+            info!("vst version: {:?}", app.host.vst_version());
+            app.host.automate(0 as i32, app.params.params[0].value);
         }
 }

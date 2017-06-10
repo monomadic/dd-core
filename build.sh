@@ -4,7 +4,7 @@ DYLIB_FILE=libdd_conrod.dylib
 VST_NAME=DDConrod2
 
 rm -rf ~/Library/Audio/Plug-Ins/VST/$VST_NAME.vst
-rm ./target/release/*.d
+# rm ./target/release/*.d
 rm ./target/release/*.rlib
 rm ./target/release/*.dylib
 
