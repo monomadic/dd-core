@@ -65,7 +65,7 @@ impl Editor for VSTPlugin {
             //     // }
 
             // }
-            window.draw(&mut self.host);
+            window.draw(&mut self.app);
 
 		}
     }

@@ -5,6 +5,7 @@ use vst2::plugin::HostCallback;
 
 use app::ui::*;
 use app::event::*;
+use app::config::*;
 
 #[derive(Debug)]
 pub enum ConrodWindowError {
@@ -46,7 +47,7 @@ impl ConrodWindow {
         Ok(cw)
     }
 
-    pub fn draw(&mut self, host: &mut HostCallback) {
+    pub fn draw(&mut self, app: &mut AppConfig) {
 
         loop {
 
@@ -64,7 +65,7 @@ impl ConrodWindow {
                 }
             }
             
-            set_widgets(self.ui.set_widgets(), &mut self.ids, host);
+            set_widgets(self.ui.set_widgets(), &mut self.ids, app);
 
             let mut target = self.display.draw();
 

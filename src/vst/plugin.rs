@@ -8,15 +8,20 @@ use std::fs::File;
 
 use window::window::ConrodWindow;
 
+use app::config::*;
+
+// #[derive(Default)]
 pub struct VSTPlugin {
     threshold: f32,
     gain: f32,
     pub window: Option<ConrodWindow>,
-    pub host: HostCallback,
+    pub app: AppConfig,
 }
 
 impl Default for VSTPlugin {
     fn default() -> VSTPlugin {
+        use log_panics;
+        log_panics::init;
         let _ = CombinedLogger::init(
             vec![
                 WriteLogger::new(LogLevelFilter::Info, Config::default(), File::create("/tmp/simplesynth.log").unwrap()),
@@ -26,7 +31,7 @@ impl Default for VSTPlugin {
             threshold: 1.0, // VST parameters are always 0.0 to 1.0
             gain: 1.0,
             window: None,
-            host: Default::default(),
+            app: AppConfig::default(),
         }
     }
 }
@@ -34,7 +39,7 @@ impl Default for VSTPlugin {
 impl Plugin for VSTPlugin {
     fn get_info(&self) -> Info {
         Info {
-            name: "DDConrod2".to_string(),
+            name: "DDConrod".to_string(),
             vendor: "DeathDisco".to_string(),
             unique_id: 7790,
             category: Category::Effect,
@@ -47,33 +52,22 @@ impl Plugin for VSTPlugin {
         }
     }
 
+    fn can_be_automated(&self, index: i32) -> bool { true }
+
     fn get_editor(&mut self) -> Option<&mut Editor> {
         Some(self)
     }
 
     fn get_parameter(&self, index: i32) -> f32 {
-        match index {
-            0 => self.threshold,
-            1 => self.gain,
-            _ => 0.0,
-        }
+        self.app.params.params[index as usize].value
     }
 
     fn set_parameter(&mut self, index: i32, value: f32) {
-        match index {
-            // We don't want to divide by zero, so we'll clamp the value
-            0 => self.threshold = value.max(0.01),
-            1 => self.gain = value,
-            _ => (),
-        }
+        self.app.params.params[index as usize].value = value.max(0.01);
     }
 
     fn get_parameter_name(&self, index: i32) -> String {
-        match index {
-            0 => "Threshold".to_string(),
-            1 => "Gain".to_string(),
-            _ => "".to_string(),
-        }
+        self.app.params.params[index as usize].name.clone()
     }
 
     fn get_parameter_text(&self, index: i32) -> String {
