@@ -97,10 +97,10 @@ impl Plugin for VSTPlugin {
             for (input_sample, output_sample) in input_buffer.iter().zip(output_buffer) {
 
                 if *input_sample >= 0.0 {
-                    *output_sample = input_sample.min(self.threshold) / self.threshold * self.gain;
+                    *output_sample = input_sample.min(self.app.params[1].value) / self.app.params[1].value * self.app.params[0].value;
                 }
                 else {
-                    *output_sample = input_sample.max(-self.threshold) / self.threshold * self.gain;
+                    *output_sample = input_sample.max(-self.app.params[1].value) / self.app.params[1].value * self.app.params[0].value;
                 }
 
             }
