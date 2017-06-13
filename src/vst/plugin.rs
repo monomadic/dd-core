@@ -14,24 +14,34 @@ use app::config::*;
 pub struct VSTPlugin {
     threshold: f32,
     gain: f32,
+    pub event_loop_is_running: bool,
     pub window: Option<ConrodWindow>,
     pub app: AppConfig,
 }
 
 impl Plugin for VSTPlugin {
     fn new(host: HostCallback) -> Self {
+
+        #[cfg(any(target_os = "macos", target_os = "linux"))]
+        let _ = CombinedLogger::init(
+            vec![
+                WriteLogger::new(LogLevelFilter::Info, Config::default(), File::create("/tmp/simplesynth.log").unwrap()),
+            ]
+        );
+
         VSTPlugin {
             threshold: 1.0, // VST parameters are always 0.0 to 1.0
             gain: 1.0,
             window: None,
             app: AppConfig::new(host),
+            event_loop_is_running: false,
         }
     }
 
     fn get_info(&self) -> Info {
         Info {
-            name: "DDConrod".to_string(),
-            vendor: "DeathDisco".to_string(),
+            name: self.app.name.clone(),
+            vendor: self.app.vendor.clone(),
             unique_id: 7790,
             category: Category::Effect,
 
@@ -50,15 +60,15 @@ impl Plugin for VSTPlugin {
     }
 
     fn get_parameter(&self, index: i32) -> f32 {
-        self.app.params.params[index as usize].value
+        self.app.params[index as usize].value
     }
 
     fn set_parameter(&mut self, index: i32, value: f32) {
-        self.app.params.params[index as usize].value = value.max(0.01);
+        self.app.params[index as usize].value = value.max(0.01);
     }
 
     fn get_parameter_name(&self, index: i32) -> String {
-        self.app.params.params[index as usize].name.clone()
+        self.app.params[index as usize].name.clone()
     }
 
     fn get_parameter_text(&self, index: i32) -> String {

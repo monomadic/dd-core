@@ -4,15 +4,22 @@ use app::params::*;
 
 #[derive(Default)]
 pub struct AppConfig {
+    pub name: String,
+    pub vendor: String,
     pub host: HostCallback,
-    pub params: Params,
+    pub params: Vec<Param>,
 }
 
 impl AppConfig {
     pub fn new(host: HostCallback) -> Self {
         AppConfig {
+            name: "DDGuiExample".to_string(),
+            vendor: "DeathDisco".to_string(),
             host: host,
-            params: Params::default(),
+            params: vec![
+                Param{ name: "Gain".to_string(), value: 0.001 },
+                Param{ name: "Threshold".to_string(), value: 0.001 },
+            ]
         }
     }
 }

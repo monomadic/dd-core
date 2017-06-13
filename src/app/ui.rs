@@ -27,7 +27,7 @@ pub fn set_widgets(ref mut ui: conrod::UiCell, ids: &mut Ids, app: &mut AppConfi
         .set(ids.body, ui);
 
     // gain_slider
-	if let Some(val) = widget::Slider::new(app.params.params[0].value, 0.0, 1.0)
+	if let Some(val) = widget::Slider::new(app.params[0].value, 0.0, 1.0)
 		.w_h(300.0, 30.0)
 		.x_y(0.0, 50.0)
 		.color(color::LIGHT_BLUE)
@@ -35,13 +35,12 @@ pub fn set_widgets(ref mut ui: conrod::UiCell, ids: &mut Ids, app: &mut AppConfi
 		// .label(&label)
 		.label_color(color::WHITE)
         .set(ids.gain_slider, ui) {
-            app.params.params[0].value = val;
-            info!("vst version: {:?}", app.host.vst_version());
-            app.host.automate(0 as i32, app.params.params[0].value);
+            app.params[0].value = val;
+            app.host.automate(0 as i32, app.params[0].value);
         }
 
     // threshold_slider
-	if let Some(val) = widget::Slider::new(app.params.params[1].value, 0.0, 1.0)
+	if let Some(val) = widget::Slider::new(app.params[1].value, 0.0, 1.0)
 		.w_h(300.0, 30.0)
 		.x_y(0.0, -50.0)
 		.color(color::LIGHT_PURPLE)
@@ -49,8 +48,8 @@ pub fn set_widgets(ref mut ui: conrod::UiCell, ids: &mut Ids, app: &mut AppConfi
 		// .label(&label)
 		.label_color(color::WHITE)
         .set(ids.threshold_slider, ui) {
-            app.params.params[1].value = val;
-            info!("vst version: {:?}", app.host.vst_version());
-            app.host.automate(1 as i32, app.params.params[1].value);
+            app.params[1].value = val;
+            // info!("vst version: {:?}", app.host.vst_version());
+            app.host.automate(1 as i32, app.params[1].value);
         }
 }

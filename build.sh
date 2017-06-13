@@ -1,7 +1,7 @@
 #!/bin/bash
 
-DYLIB_FILE=libdd_conrod.dylib
-VST_NAME=DDConrod2
+DYLIB_FILE=libdd_core.dylib
+VST_NAME=DDOverdriveGUI
 
 rm -rf ~/Library/Audio/Plug-Ins/VST/$VST_NAME.vst
 # rm ./target/release/*.d
