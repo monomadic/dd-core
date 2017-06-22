@@ -5,8 +5,6 @@ extern crate vst2;
 extern crate log;
 extern crate simplelog;
 
-extern crate libc;
-
 #[macro_use] extern crate conrod;
 
 // extern crate find_folder;

@@ -10,7 +10,6 @@ winit = { path = "../winit-vst" }
 conrod = { version = "0.52.0", features = ["piston", "glium", "winit"] }
 log = "0.3"
 simplelog = "0.4.2"
-libc = "*"
 log-panics = "1.1.0"
 
 [lib]

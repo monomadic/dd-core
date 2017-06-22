@@ -1,9 +1,9 @@
 use vst2::editor::{Editor, KnobMode, KeyCode};
 
-use libc;
 use std::os::raw::c_void;
 
 use window::init::create_window;
+
 use vst::plugin::VSTPlugin;
 
 impl Editor for VSTPlugin {
@@ -15,7 +15,7 @@ impl Editor for VSTPlugin {
         (0, 0)
     }
 
-    fn open(&mut self, window: *mut libc::c_void) {
+    fn open(&mut self, window: *mut c_void) {
         info!("VST plugin called open()");
         // info!("id: {}", window as i32);
 
@@ -50,8 +50,10 @@ impl Editor for VSTPlugin {
     // fn idle(&mut self) { info!("VST plugin called idle()"); }
 
     fn idle(&mut self) {
+  //       info!("idle() called.");
 		if let Some(ref mut window) = self.window {
             window.draw(&mut self.app);
+            // self.window = None;
 		}
     }
 }

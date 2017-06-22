@@ -123,6 +123,7 @@ impl ConrodWindow {
             }
 
             target.finish().unwrap();
+            break 'main;
         }
     }
 }
