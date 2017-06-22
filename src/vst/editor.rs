@@ -1,10 +1,8 @@
 use vst2::editor::{Editor, KnobMode, KeyCode};
-
+use vst::plugin::VSTPlugin;
 use std::os::raw::c_void;
 
-use window::init::create_window;
-
-use vst::plugin::VSTPlugin;
+use gui::Window;
 
 impl Editor for VSTPlugin {
     fn size(&self) -> (i32, i32) {
@@ -17,12 +15,11 @@ impl Editor for VSTPlugin {
 
     fn open(&mut self, window: *mut c_void) {
         info!("VST plugin called open()");
-        // info!("id: {}", window as i32);
 
-        match create_window(window as *mut c_void) {
-            Ok(wc) => {
+        match Window::new(window as *mut c_void) {
+            Ok(w) => {
                 info!("Window created ok in editor.");
-                self.window = Some(wc);
+                self.window = Some(w);
             },
             Err(why) => { error!("{:?}", why) }
         }
@@ -30,7 +27,7 @@ impl Editor for VSTPlugin {
 
     fn close(&mut self) {
         info!("VST plugin called close()");
-        // self.window = None;
+        self.window = None;
     }
 
     fn is_open(&mut self) -> bool {

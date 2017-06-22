@@ -6,7 +6,7 @@ use vst2::host::Host;
 use simplelog::*;
 use std::fs::File;
 
-use window::window::ConrodWindow;
+use gui::Window;
 
 use app::config::*;
 
@@ -15,7 +15,7 @@ pub struct VSTPlugin {
     threshold: f32,
     gain: f32,
     pub event_loop_is_running: bool,
-    pub window: Option<ConrodWindow>,
+    pub window: Option<Window>,
     pub app: AppConfig,
 }
 

@@ -14,7 +14,7 @@ extern crate winit;
 
 mod vst;
 mod app;
-mod window;
+mod gui;
 
 use vst::plugin::VSTPlugin;
 plugin_main!(VSTPlugin);
