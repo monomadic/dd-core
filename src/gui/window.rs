@@ -19,9 +19,9 @@ pub struct Window {
     pub renderer: conrod::backend::glium::Renderer,
 }
 
-pub fn run_conrod() {
-    info!("in thread!");
-}
+// pub fn run_conrod() {
+//     info!("in thread!");
+// }
 
 impl Window {
     pub fn new(handle: *mut c_void) -> Result<Window, GUIError> {
@@ -77,9 +77,9 @@ impl Window {
         let cw = Window{ui: ui, display: window, image_map: image_map, renderer: renderer, ids: ids};
 
         // std::thread::spawn(move || run_conrod(rust_logo, event_rx, render_tx, window_proxy));
-        std::thread::spawn(move || run_conrod());
+        // std::thread::spawn(move || run_conrod());
 
-        info!("back from thread");
+        // info!("back from thread");
 
         // std::thread::spawn(move || draw(cw, default::Default()));
 
