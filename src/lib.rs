@@ -12,9 +12,15 @@ extern crate simplelog;
 
 extern crate winit;
 
-mod vst;
+pub mod vst;
 mod app;
 mod gui;
 
-use vst::plugin::VSTPlugin;
-plugin_main!(VSTPlugin);
+pub use vst2::*;
+
+#[macro_export]
+macro_rules! create_plugin {
+    ($plugin:ty) => {
+        plugin_main!($plugin);
+    }
+}

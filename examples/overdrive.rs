@@ -4,19 +4,21 @@ use dd_core::*;
 struct OverdrivePlugin;
 
 impl Config for OverdrivePlugin {
-    pub fn get_config() -> PluginConfig {
-        name: "DD-Overdrive".to_string(),
-        vendor: "deathdisco.wtf".to_string(),
-        unique_id: 222666,
-        version: 0001,
-        inputs: 2,
-        outputs: 2,
-        parameters: 2,
-        category: Effect,
-        params: vec![
-            Param{ name: "Gain".to_string(), value: 0.001 },
-            Param{ name: "Threshold".to_string(), value: 0.001 },
-        ]
+    pub fn new() -> Self {
+        PluginConfig {
+            name: "DD-Overdrive".to_string(),
+            vendor: "deathdisco.wtf".to_string(),
+            unique_id: 222666,
+            version: 0001,
+            inputs: 2,
+            outputs: 2,
+            parameters: 2,
+            category: Effect,
+            params: vec![
+                Param{ name: "Gain".to_string(), value: 0.001 },
+                Param{ name: "Threshold".to_string(), value: 0.001 },
+            ]
+        }
     }
 }
 

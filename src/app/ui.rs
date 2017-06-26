@@ -22,7 +22,7 @@ pub fn set_widgets(ref mut ui: conrod::UiCell, ids: &mut Ids, app: &mut AppConfi
 
     // background
     Canvas::new()
-        .color(color::Color::Rgba(0.1, 0.1, 0.1, 1.0))
+        .color(color::Color::Rgba(0.1, 1.0, 0.1, 1.0))
         .border(0.1)
         .set(ids.body, ui);
 

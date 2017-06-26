@@ -14,8 +14,11 @@ log-panics = "1.1.0"
 
 [lib]
 name = "dd_core"
-crate-type = ["cdylib"]
 
 [replace]
 # "winit:0.5.11" = { git = "https://github.com/robsaunders/winit-vst" }
 "winit:0.5.11" = { path = "../winit-vst" }
+
+[[example]]
+name = "test"
+crate-type = ["cdylib"]

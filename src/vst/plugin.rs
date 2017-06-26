@@ -25,7 +25,7 @@ impl Plugin for VSTPlugin {
         #[cfg(any(target_os = "macos", target_os = "linux"))]
         let _ = CombinedLogger::init(
             vec![
-                WriteLogger::new(LogLevelFilter::Info, Config::default(), File::create("/tmp/simplesynth.log").unwrap()),
+                WriteLogger::new(LogLevelFilter::Info, Config::default(), File::create("/tmp/simplesynth.log").expect("log to open correctly.")),
             ]
         );
 

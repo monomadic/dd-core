@@ -19,10 +19,6 @@ pub struct Window {
     pub renderer: conrod::backend::glium::Renderer,
 }
 
-// pub fn run_conrod() {
-//     info!("in thread!");
-// }
-
 impl Window {
     pub fn new(handle: *mut c_void) -> Result<Window, GUIError> {
 
@@ -75,15 +71,6 @@ impl Window {
         let ids = Ids::new(ui.widget_id_generator());
 
         let cw = Window{ui: ui, display: window, image_map: image_map, renderer: renderer, ids: ids};
-
-        // std::thread::spawn(move || run_conrod(rust_logo, event_rx, render_tx, window_proxy));
-        // std::thread::spawn(move || run_conrod());
-
-        // info!("back from thread");
-
-        // std::thread::spawn(move || draw(cw, default::Default()));
-
-        // cw.set_timer(window.get_window().unwrap());
         
         Ok(cw)
     }
@@ -113,7 +100,6 @@ impl Window {
 
                 // Use the `winit` backend feature to convert the winit event to a conrod one.
                 if let Some(event) = conrod::backend::winit::convert(event.clone(), &self.display) {
-                    // event_tx.send(event).unwrap();
                     self.ui.handle_event(event.clone());
                     ui_event(event);
                 }
@@ -141,10 +127,10 @@ impl Window {
             // Render the `Ui` and then display it on the screen.
             if let Some(primitives) = self.ui.draw_if_changed() {
                 self.renderer.fill(&self.display, primitives, &self.image_map);
-                self.renderer.draw(&self.display, &mut target, &self.image_map).unwrap();
+                self.renderer.draw(&self.display, &mut target, &self.image_map).expect("renderer to draw");
             }
 
-            target.finish().unwrap();
+            target.finish().expect("target to finish()");
             break 'main;
         }
     }
