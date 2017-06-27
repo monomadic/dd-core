@@ -1,8 +1,29 @@
 extern crate dd_core;
 use dd_core::*;
+use dd_core::conrod;
+#[macro_use]
+use dd_core::conrod::widget::*;
+use dd_core::host::Host;
 
 #[derive(Default)]
 struct TestPlugin {}
+
+// struct Ids {
+//     pub body: conrod::widget::Id,
+//     pub gain_slider: conrod::widget::Id,
+//     pub threshold_slider: conrod::widget::Id,
+// }
+
+// impl Ids {
+//     #[allow(unused_mut, unused_variables)]
+//     pub fn new(mut generator: conrod::widget::id::Generator) -> Self {
+//         Ids{
+//         	body: generator.next(),
+//         	gain_slider: generator.next(),
+//         	threshold_slider: generator.next(),
+//         }
+//     }
+// }
 
 impl BasePlugin for TestPlugin {
 	fn new(host: HostCallback) -> (Self, PluginConfig) {(
@@ -15,8 +36,82 @@ impl BasePlugin for TestPlugin {
             params: vec![
                 Param{ name: "Gain".to_string(), value: 0.001 },
                 Param{ name: "Threshold".to_string(), value: 0.001 },
-            ]
+            ],
 		})
+	}
+}
+
+// /// Declare all widgets you're using.
+// widget_ids! {
+//     pub struct Ids {
+//         body,
+//         gain_slider,
+//         threshold_slider,
+//     }
+// }
+
+impl Graphics for TestPlugin {
+
+	fn setup_ids(&mut self, generator: &mut conrod::widget::id::Generator) -> Vec<conrod::widget::Id> {
+		vec![
+        	generator.next(),
+        	generator.next(),
+        	generator.next(),
+		]
+	}
+
+	fn do_layout(&mut self, ref mut ui: conrod::UiCell, config: &mut PluginConfig, ids: &mut Vec<conrod::widget::Id>) {
+	    use conrod::{Color, color, widget, Labelable, Colorable, Sizeable, Widget, Borderable, Positionable};
+	    use conrod::widget::Canvas;
+
+		/// Declare all widgets you're using.
+		// widget_ids! {
+		//     pub struct Ids {
+		//         body,
+		//         gain_slider,
+		//         threshold_slider,
+		//     }
+		// }
+
+
+     //    let ids = ;
+
+	    // let ids : &mut Vec<conrod::widget::Id> = vec![
+	    // 	conrod::widget::id::List::new(),
+	    // ];
+
+	    // background
+	    Canvas::new()
+	        .color(color::Color::Rgba(0.1, 1.0, 0.1, 1.0))
+	        .border(0.1)
+	        .set(ids[0], ui);
+
+	    // gain_slider
+		if let Some(val) = widget::Slider::new(config.params[0].value, 0.0, 1.0)
+			.w_h(300.0, 30.0)
+			.x_y(0.0, 50.0)
+			.color(color::LIGHT_BLUE)
+			.border(1.0)
+			// .label(&label)
+			.label_color(color::WHITE)
+	        .set(ids[1], ui) {
+	            config.params[0].value = val;
+	            config.host.automate(0 as i32, config.params[0].value);
+	        }
+
+	    // threshold_slider
+		if let Some(val) = widget::Slider::new(config.params[1].value, 0.0, 1.0)
+			.w_h(300.0, 30.0)
+			.x_y(0.0, -50.0)
+			.color(color::LIGHT_PURPLE)
+			.border(1.0)
+			// .label(&label)
+			.label_color(color::WHITE)
+	        .set(ids[2], ui) {
+	            config.params[1].value = val;
+	            // info!("vst version: {:?}", config.host.vst_version());
+	            config.host.automate(1 as i32, config.params[1].value);
+	        }
 	}
 }
 

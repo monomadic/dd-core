@@ -9,12 +9,13 @@ use std::fs::File;
 use gui::Window;
 
 use app::config::*;
+use app::ui::*;
 use vst::{ VSTPlugin };
 
 use PluginConfig;
 use BasePlugin;
 
-impl<P> Plugin for VSTPlugin<P> where P : BasePlugin {
+impl<P> Plugin for VSTPlugin<P> where P: BasePlugin + Graphics {
     fn new(host: HostCallback) -> Self {
 
         #[cfg(any(target_os = "macos", target_os = "linux"))]

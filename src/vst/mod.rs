@@ -2,14 +2,12 @@ mod editor;
 pub mod plugin;
 use gui::Window;
 use app::config::*;
+use app::ui::*;
 use vst2::plugin::HostCallback;
 
 #[derive(Default)]
-pub struct VSTPlugin<P> where P : BasePlugin {
-    // threshold: f32,
-    // gain: f32,
+pub struct VSTPlugin<P> where P: BasePlugin + Graphics {
     pub window: Option<Window>,
-    // pub config: AppConfig,
 	pub plugin: P,
 	config: PluginConfig,
 }

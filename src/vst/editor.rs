@@ -3,11 +3,12 @@ use vst::VSTPlugin;
 use std::os::raw::c_void;
 
 use gui::Window;
+use app::ui::*;
 
 use PluginConfig;
 use BasePlugin;
 
-impl<P> Editor for VSTPlugin<P> where P : BasePlugin {
+impl<P:BasePlugin + Graphics> Editor for VSTPlugin<P> {
     fn size(&self) -> (i32, i32) {
         (500, 300)
     }
@@ -19,7 +20,7 @@ impl<P> Editor for VSTPlugin<P> where P : BasePlugin {
     fn open(&mut self, window: *mut c_void) {
         info!("VST plugin called open()");
 
-        match Window::new(window as *mut c_void) {
+        match Window::new(window as *mut c_void, &mut self.plugin) {
             Ok(w) => {
                 info!("Window created ok in editor.");
                 self.window = Some(w);
@@ -41,7 +42,7 @@ impl<P> Editor for VSTPlugin<P> where P : BasePlugin {
 
     fn idle(&mut self) {
 		if let Some(ref mut window) = self.window {
-            window.draw(&mut self.config);
+            window.draw(&mut self.config, &mut self.plugin);
 		}
     }
 }

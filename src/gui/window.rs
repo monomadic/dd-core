@@ -2,6 +2,7 @@ use conrod;
 use conrod::glium;
 use conrod::backend::glium::glium::glutin::WindowBuilder;
 use conrod::backend::glium::glium::DisplayBuild;
+use conrod::widget::Id;
 use vst2::plugin::HostCallback;
 use std::os::raw::c_void;
 use winit;
@@ -15,12 +16,12 @@ pub struct Window {
     pub ui: conrod::Ui,
     pub display: glium::Display,
     pub image_map: conrod::image::Map<glium::texture::Texture2d>,
-    pub ids: Ids,
+    pub ids: Vec<conrod::widget::Id>,
     pub renderer: conrod::backend::glium::Renderer,
 }
 
 impl Window {
-    pub fn new(handle: *mut c_void) -> Result<Window, GUIError> {
+    pub fn new<P:Graphics>(handle: *mut c_void, plugin: &mut P) -> Result<Window, GUIError> {
 
         let wb = winit::WindowBuilder::new()
             .with_visibility(true)
@@ -41,7 +42,7 @@ impl Window {
                 Ok(display) => {
                     info!("Window spawned OK with conrod.");
 
-                    let app = Window::setup_display(display);
+                    let app = Window::setup_display(display, plugin);
 
                     match app {
                         Ok(a) => Ok(a),
@@ -51,7 +52,7 @@ impl Window {
             }
     }
 
-    pub fn setup_display(window: glium::Display) -> Result<Self, GUIError> {
+    pub fn setup_display<P:Graphics>(window: glium::Display, plugin: &mut P) -> Result<Self, GUIError> {
         let (width, height) = try!(window.get_window()
             .ok_or(GUIError::CreationError("could not .get_window()".to_string()))
             .and_then({|window|
@@ -68,14 +69,21 @@ impl Window {
         };
 
         let image_map = conrod::image::Map::new();
-        let ids = Ids::new(ui.widget_id_generator());
 
-        let cw = Window{ui: ui, display: window, image_map: image_map, renderer: renderer, ids: ids};
+        let ids = plugin.setup_ids(&mut ui.widget_id_generator());
+
+        let cw = Window{
+            ui: ui,
+            display: window,
+            image_map: image_map,
+            renderer: renderer,
+            ids: ids,
+        };
         
         Ok(cw)
     }
 
-    pub fn draw(&mut self, plugin: &mut PluginConfig) {
+    pub fn draw<P>(&mut self, config: &mut PluginConfig, plugin: &mut P) where P: Graphics {
         use std;
 
         let mut last_update = std::time::Instant::now();
@@ -120,7 +128,8 @@ impl Window {
                 // }
             }
             
-            set_widgets(self.ui.set_widgets(), &mut self.ids, plugin);
+            // set_widgets(self.ui.set_widgets(), &mut self.ids, plugin);
+            plugin.do_layout(self.ui.set_widgets(), config, &mut self.ids);
 
             let mut target = self.display.draw();
 

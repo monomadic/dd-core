@@ -5,7 +5,8 @@ extern crate vst2;
 extern crate log;
 extern crate simplelog;
 
-#[macro_use] extern crate conrod;
+#[macro_use]
+pub extern crate conrod;
 
 extern crate winit;
 
@@ -16,6 +17,7 @@ mod gui;
 pub use vst2::*;
 pub use vst2::plugin::HostCallback;
 pub use app::config::PluginConfig;
+pub use app::ui::Graphics;
 pub use vst::BasePlugin;
 pub use app::params::Param;
 use vst::VSTPlugin;
