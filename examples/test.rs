@@ -8,23 +8,6 @@ use dd_core::host::Host;
 #[derive(Default)]
 struct TestPlugin {}
 
-// struct Ids {
-//     pub body: conrod::widget::Id,
-//     pub gain_slider: conrod::widget::Id,
-//     pub threshold_slider: conrod::widget::Id,
-// }
-
-// impl Ids {
-//     #[allow(unused_mut, unused_variables)]
-//     pub fn new(mut generator: conrod::widget::id::Generator) -> Self {
-//         Ids{
-//         	body: generator.next(),
-//         	gain_slider: generator.next(),
-//         	threshold_slider: generator.next(),
-//         }
-//     }
-// }
-
 impl BasePlugin for TestPlugin {
 	fn new(host: HostCallback) -> (Self, PluginConfig) {(
 		TestPlugin {
@@ -41,15 +24,6 @@ impl BasePlugin for TestPlugin {
 	}
 }
 
-// /// Declare all widgets you're using.
-// widget_ids! {
-//     pub struct Ids {
-//         body,
-//         gain_slider,
-//         threshold_slider,
-//     }
-// }
-
 impl Graphics for TestPlugin {
 
 	fn setup_ids(&mut self, generator: &mut conrod::widget::id::Generator) -> Vec<conrod::widget::Id> {
@@ -63,22 +37,6 @@ impl Graphics for TestPlugin {
 	fn do_layout(&mut self, ref mut ui: conrod::UiCell, config: &mut PluginConfig, ids: &mut Vec<conrod::widget::Id>) {
 	    use conrod::{Color, color, widget, Labelable, Colorable, Sizeable, Widget, Borderable, Positionable};
 	    use conrod::widget::Canvas;
-
-		/// Declare all widgets you're using.
-		// widget_ids! {
-		//     pub struct Ids {
-		//         body,
-		//         gain_slider,
-		//         threshold_slider,
-		//     }
-		// }
-
-
-     //    let ids = ;
-
-	    // let ids : &mut Vec<conrod::widget::Id> = vec![
-	    // 	conrod::widget::id::List::new(),
-	    // ];
 
 	    // background
 	    Canvas::new()
