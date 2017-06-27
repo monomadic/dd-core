@@ -1,10 +1,13 @@
 use vst2::editor::{Editor, KnobMode, KeyCode};
-use vst::plugin::VSTPlugin;
+use vst::VSTPlugin;
 use std::os::raw::c_void;
 
 use gui::Window;
 
-impl Editor for VSTPlugin {
+use PluginConfig;
+use BasePlugin;
+
+impl<P> Editor for VSTPlugin<P> where P : BasePlugin {
     fn size(&self) -> (i32, i32) {
         (500, 300)
     }
@@ -30,27 +33,15 @@ impl Editor for VSTPlugin {
         self.window = None;
     }
 
-    fn is_open(&mut self) -> bool {
-        self.window.is_some()
-    }
+    fn is_open(&mut self) -> bool { self.window.is_some() }
 
-    // / Set the knob mode for this editor (if supported by host).
-    // /
-    // / Return true if the knob mode was set.
     // fn set_knob_mode(&mut self, mode: KnobMode) -> bool { info!("VST plugin called KnobMode()"); false }
-
-    // / Recieve key up event. Return true if the key was used.
     // fn key_up(&mut self, keycode: KeyCode) -> bool { info!("VST plugin called key_up()"); false }
-
-    // / Receive key down event. Return true if the key was used.
     // fn key_down(&mut self, keycode: KeyCode) -> bool { info!("VST plugin called key_down()"); false }
-    // fn idle(&mut self) { info!("VST plugin called idle()"); }
 
     fn idle(&mut self) {
-  //       info!("idle() called.");
 		if let Some(ref mut window) = self.window {
-            window.draw(&mut self.app);
-            // self.window = None;
+            window.draw(&mut self.config);
 		}
     }
 }

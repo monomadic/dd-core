@@ -75,7 +75,7 @@ impl Window {
         Ok(cw)
     }
 
-    pub fn draw(&mut self, app: &mut AppConfig) {
+    pub fn draw(&mut self, plugin: &mut PluginConfig) {
         use std;
 
         let mut last_update = std::time::Instant::now();
@@ -120,7 +120,7 @@ impl Window {
                 // }
             }
             
-            set_widgets(self.ui.set_widgets(), &mut self.ids, app);
+            set_widgets(self.ui.set_widgets(), &mut self.ids, plugin);
 
             let mut target = self.display.draw();
 

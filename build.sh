@@ -7,7 +7,7 @@ rm -rf ~/Library/Audio/Plug-Ins/VST/$VST_NAME.vst 2> /dev/null
 rm -rf $DYLIB_FILE 2> /dev/null
 
 cargo build --release --example test
-mv ./target/release/examples/*.dylib ./target/release/examples/libtest.dylib
+mv ./target/release/examples/*.dylib ./target/release/examples/libtest.dylib 2> /dev/null
 
 if [ -f $DYLIB_FILE ]; then
     vst-bundler $VST_NAME $DYLIB_FILE &&
@@ -17,6 +17,6 @@ if [ -f $DYLIB_FILE ]; then
     echo "done."
     osascript -e 'display notification "Build successful." with title "DDOverdriveGUI"'
 else
-    echo "lib not found!"
+    echo "build failed."
     osascript -e 'display notification "Build failed." with title "DDOverdriveGUI"'
 fi
