@@ -8,7 +8,6 @@ use std::fs::File;
 
 use gui::Window;
 
-use app::config::*;
 use vst::{ VSTPlugin };
 
 use PluginConfig;

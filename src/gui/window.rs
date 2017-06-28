@@ -7,11 +7,9 @@ use vst2::plugin::HostCallback;
 use std::os::raw::c_void;
 use winit;
 
-use app::event::*;
-use app::config::*;
 use gui::GUIError;
-
 use Graphics;
+use PluginConfig;
 
 pub struct Window {
     pub ui: conrod::Ui,
@@ -19,6 +17,15 @@ pub struct Window {
     pub image_map: conrod::image::Map<glium::texture::Texture2d>,
     pub ids: Vec<conrod::widget::Id>,
     pub renderer: conrod::backend::glium::Renderer,
+}
+
+pub fn ui_event(event: conrod::event::Input) {
+    match event {
+        // glium::glutin::Event::KeyboardInput(_, _, Some(glium::glutin::VirtualKeyCode::Escape)) |
+        // glium::glutin::Event::Closed => { return; },
+        // _ => { info!(" -- glium event {:?}", event)},
+        _ => (),
+    }
 }
 
 impl Window {

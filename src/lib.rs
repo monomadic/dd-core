@@ -11,16 +11,19 @@ pub extern crate conrod;
 extern crate winit;
 
 pub mod vst;
-mod app;
+mod base;
 mod gui;
 
+// external objects
 pub use vst2::*;
 pub use vst2::plugin::{ HostCallback, Category };
 pub use vst2::host::Host;
-pub use app::config::PluginConfig;
-pub use app::params::Param;
-pub use vst::BasePlugin;
+pub use base::config::PluginConfig;
+pub use base::param::Param;
+pub use base::BasePlugin;
 pub use gui::Graphics;
+
+// internal objects
 use vst::VSTPlugin;
 
 #[macro_export]

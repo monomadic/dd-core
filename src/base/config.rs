@@ -1,8 +1,6 @@
-use vst2::plugin::HostCallback;
-
-use app::params::*;
-
+use HostCallback;
 use Category;
+use Param;
 
 pub struct PluginConfig {
     pub name: String,
