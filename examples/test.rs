@@ -1,9 +1,7 @@
 extern crate dd_core;
 use dd_core::*;
 use dd_core::conrod;
-#[macro_use]
 use dd_core::conrod::widget::*;
-use dd_core::host::Host;
 
 #[derive(Default)]
 struct TestPlugin {}
@@ -29,7 +27,6 @@ impl BasePlugin for TestPlugin {
 }
 
 impl Graphics for TestPlugin {
-
     fn setup_ids(&mut self, generator: &mut conrod::widget::id::Generator) -> Vec<conrod::widget::Id> {
         vec![
             generator.next(),

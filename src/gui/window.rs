@@ -7,10 +7,11 @@ use vst2::plugin::HostCallback;
 use std::os::raw::c_void;
 use winit;
 
-use app::ui::*;
 use app::event::*;
 use app::config::*;
 use gui::GUIError;
+
+use Graphics;
 
 pub struct Window {
     pub ui: conrod::Ui,

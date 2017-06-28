@@ -2,8 +2,9 @@ mod editor;
 pub mod plugin;
 use gui::Window;
 use app::config::*;
-use app::ui::*;
 use vst2::plugin::HostCallback;
+
+use Graphics;
 
 #[derive(Default)]
 pub struct VSTPlugin<P> where P: BasePlugin + Graphics {

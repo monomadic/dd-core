@@ -9,11 +9,11 @@ use std::fs::File;
 use gui::Window;
 
 use app::config::*;
-use app::ui::*;
 use vst::{ VSTPlugin };
 
 use PluginConfig;
 use BasePlugin;
+use Graphics;
 
 impl<P> Plugin for VSTPlugin<P> where P: BasePlugin + Graphics {
     fn new(host: HostCallback) -> Self {

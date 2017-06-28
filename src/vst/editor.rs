@@ -3,10 +3,10 @@ use vst::VSTPlugin;
 use std::os::raw::c_void;
 
 use gui::Window;
-use app::ui::*;
 
 use PluginConfig;
 use BasePlugin;
+use Graphics;
 
 impl<P:BasePlugin + Graphics> Editor for VSTPlugin<P> {
     fn size(&self) -> (i32, i32) {

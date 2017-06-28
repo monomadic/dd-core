@@ -16,10 +16,11 @@ mod gui;
 
 pub use vst2::*;
 pub use vst2::plugin::{ HostCallback, Category };
+pub use vst2::host::Host;
 pub use app::config::PluginConfig;
-pub use app::ui::Graphics;
-pub use vst::BasePlugin;
 pub use app::params::Param;
+pub use vst::BasePlugin;
+pub use gui::Graphics;
 use vst::VSTPlugin;
 
 #[macro_export]
