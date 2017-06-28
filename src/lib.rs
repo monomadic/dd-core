@@ -15,7 +15,7 @@ mod app;
 mod gui;
 
 pub use vst2::*;
-pub use vst2::plugin::HostCallback;
+pub use vst2::plugin::{ HostCallback, Category };
 pub use app::config::PluginConfig;
 pub use app::ui::Graphics;
 pub use vst::BasePlugin;

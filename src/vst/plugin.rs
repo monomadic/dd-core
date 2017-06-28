@@ -38,11 +38,10 @@ impl<P> Plugin for VSTPlugin<P> where P: BasePlugin + Graphics {
         Info {
             name: self.config.name.clone(),
             vendor: self.config.vendor.clone(),
-            unique_id: 7790,
-            category: Category::Effect,
-
-            inputs: 2,
-            outputs: 2,
+            unique_id: self.config.unique_id,
+            category: self.config.category,
+            inputs: self.config.inputs,
+            outputs: self.config.outputs,
             parameters: self.config.params.len() as i32,
 
             ..Info::default()
@@ -95,25 +94,3 @@ impl<P> Plugin for VSTPlugin<P> where P: BasePlugin + Graphics {
     }
 }
 
-
-// impl<P> Default for VSTPlugin<P> where P : BasePlugin {
-//     fn default(host: HostCallback) -> Self {
-//         #[cfg(any(target_os = "macos", target_os = "linux"))]
-//         let _ = simplelog::CombinedLogger::init(
-//             vec![
-//                 simplelog::WriteLogger::new(simplelog::LogLevelFilter::Info, simplelog::Config::default(), File::create("/tmp/simplesynth.log").expect("log to open correctly.")),
-//             ]
-//         );
-
-//         let (plugin, config) = P::new(host);
-
-//         VSTPlugin {
-//             threshold: 1.0, // VST parameters are always 0.0 to 1.0
-//             gain: 1.0,
-//             window: None,
-//             // config: AppConfig::new(host),
-//             plugin: plugin,
-//             config: config,
-//         }
-//     }
-// }

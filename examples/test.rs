@@ -16,6 +16,10 @@ impl BasePlugin for TestPlugin {
             name: "DDTestPlugin".to_string(),
             vendor: "DeathDisco".to_string(),
             host: host,
+            unique_id: 222666,
+            inputs: 2,
+            outputs: 2,
+            category: Category::Effect,
             params: vec![
                 Param{ name: "Gain".to_string(), value: 0.001 },
                 Param{ name: "Threshold".to_string(), value: 0.001 },
