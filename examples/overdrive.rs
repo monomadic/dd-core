@@ -38,7 +38,7 @@ impl Graphics for TestPlugin {
     }
 
     fn do_layout(&mut self, ref mut ui: conrod::UiCell, config: &mut PluginConfig, ids: &mut Vec<conrod::widget::Id>) {
-        use conrod::{Color, color, widget, Labelable, Colorable, Sizeable, Widget, Borderable, Positionable};
+        use conrod::{color, Labelable, Colorable, Sizeable, Widget, Borderable, Positionable};
         use conrod::widget::Canvas;
 
         let border_width = 1.0;
