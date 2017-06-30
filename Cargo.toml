@@ -20,5 +20,5 @@ name = "dd_core"
 # "winit:0.5.11" = { path = "../winit-vst" }
 
 [[example]]
-name = "test"
+name = "overdrive"
 crate-type = ["cdylib"]

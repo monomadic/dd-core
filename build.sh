@@ -1,13 +1,15 @@
 #!/bin/bash
 
-DYLIB_FILE=./target/release/examples/libtest.dylib
+echo $PATH
+
+DYLIB_FILE=./target/release/examples/liboverdrive.dylib
 VST_NAME=DDPlugTest
 
 rm -rf ~/Library/Audio/Plug-Ins/VST/$VST_NAME.vst 2> /dev/null
 rm -rf $DYLIB_FILE 2> /dev/null
 
-cargo build --release --example test
-mv ./target/release/examples/*.dylib ./target/release/examples/libtest.dylib 2> /dev/null
+cargo build --release --example overdrive
+mv ./target/release/examples/*.dylib $DYLIB_FILE 2> /dev/null
 
 if [ -f $DYLIB_FILE ]; then
     vst-bundler $VST_NAME $DYLIB_FILE &&
