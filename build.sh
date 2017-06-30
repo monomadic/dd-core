@@ -12,7 +12,7 @@ cargo build --release --example overdrive
 mv ./target/release/examples/*.dylib $DYLIB_FILE 2> /dev/null
 
 if [ -f $DYLIB_FILE ]; then
-    vst-bundler $VST_NAME $DYLIB_FILE &&
+    bash ./scripts/vst-bundler.sh $VST_NAME $DYLIB_FILE &&
     mv -v ./$VST_NAME.vst ~/Library/Audio/Plug-Ins/VST/
 
     du -sh ~/Library/Audio/Plug-Ins/VST/$VST_NAME.vst
