@@ -4,7 +4,7 @@ Simple library for developing VST2 plugins in 100% rust. The Steinberg SDK is no
 
 Support for audiounit and lv2 will be coming in the future.
 
-The VST2 work could not have been done without overdrivenpotatoes hard work on the `rust-vst2` crate.
+This lib could not have been done without overdrivenpotato's hard work on the `rust-vst2` crate.
 
 Currently the code compiles on Mac OS and Windows, with Mac being the first-class citizen over Windows. Increased and ongoing support for Linux and Windows would be nice but I currently only use Mac OS.
 
