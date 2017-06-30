@@ -41,7 +41,7 @@ impl Graphics for TestPlugin {
         use conrod::{Color, color, widget, Labelable, Colorable, Sizeable, Widget, Borderable, Positionable};
         use conrod::widget::Canvas;
 
-        let BORDER_WIDTH = 1.0;
+        let border_width = 1.0;
 
         // background
         Canvas::new()
@@ -53,7 +53,7 @@ impl Graphics for TestPlugin {
             .w_h(300.0, 30.0)
             .x_y(0.0, 50.0)
             .color(color::LIGHT_BLUE)
-            .border(BORDER_WIDTH)
+            .border(border_width)
             // .label(&label)
             .label_color(color::WHITE)
             .set(ids[1], ui) {
@@ -66,7 +66,7 @@ impl Graphics for TestPlugin {
             .w_h(300.0, 30.0)
             .x_y(0.0, -50.0)
             .color(color::LIGHT_PURPLE)
-            .border(BORDER_WIDTH)
+            .border(border_width)
             // .label(&label)
             .label_color(color::WHITE)
             .set(ids[2], ui) {
