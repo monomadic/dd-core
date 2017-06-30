@@ -17,6 +17,7 @@ mod gui;
 // external objects
 pub use vst2::*;
 pub use vst2::plugin::{ HostCallback, Category };
+pub use vst2::buffer::AudioBuffer;
 pub use vst2::host::Host;
 pub use base::config::PluginConfig;
 pub use base::param::Param;
