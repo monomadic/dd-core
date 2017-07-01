@@ -17,7 +17,6 @@ use Graphics;
 impl<P> Plugin for VSTPlugin<P> where P: BasePlugin + Graphics {
     fn new(host: HostCallback) -> Self {
 
-        #[cfg(feature="logging")]
         #[cfg(any(target_os = "macos", target_os = "linux"))]
         let _ = simplelog::CombinedLogger::init(
             vec![

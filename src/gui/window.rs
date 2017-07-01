@@ -5,6 +5,7 @@ use conrod::backend::glium::glium::DisplayBuild;
 use conrod::widget::Id;
 use vst2::plugin::HostCallback;
 use std::os::raw::c_void;
+use std::collections::HashMap;
 use winit;
 
 use gui::GUIError;
@@ -15,7 +16,7 @@ pub struct Window {
     pub ui: conrod::Ui,
     pub display: glium::Display,
     pub image_map: conrod::image::Map<glium::texture::Texture2d>,
-    pub ids: Vec<conrod::widget::Id>,
+    pub ids: HashMap<String, conrod::widget::Id>,
     pub renderer: conrod::backend::glium::Renderer,
 }
 
@@ -26,6 +27,14 @@ pub fn ui_event(event: conrod::event::Input) {
         // _ => { info!(" -- glium event {:?}", event)},
         _ => (),
     }
+}
+
+fn set_ids(generator: &mut conrod::widget::id::Generator, labels: Vec<String>) -> HashMap<String, conrod::widget::Id> {
+    let mut ids = HashMap::new();
+    for label in labels {
+        ids.insert(label, generator.next());
+    }
+    ids
 }
 
 impl Window {
@@ -78,7 +87,7 @@ impl Window {
 
         let image_map = conrod::image::Map::new();
 
-        let ids = plugin.setup_ids(&mut ui.widget_id_generator());
+        let mut ids = set_ids(&mut ui.widget_id_generator(), plugin.widget_ids());
 
         let cw = Window{
             ui: ui,
@@ -94,7 +103,7 @@ impl Window {
     pub fn draw<P>(&mut self, config: &mut PluginConfig, plugin: &mut P) where P: Graphics {
         use std;
 
-        let mut last_update = std::time::Instant::now();
+        let last_update = std::time::Instant::now();
         'main: loop {
 
             // We don't want to loop any faster than 60 FPS, so wait until it has been at least

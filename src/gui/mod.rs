@@ -1,6 +1,8 @@
 pub mod window;
 pub mod events;
 
+use std::collections::HashMap;
+
 pub use self::window::Window;
 use BasePlugin;
 
@@ -12,6 +14,10 @@ pub enum GUIError {
 use conrod;
 use PluginConfig;
 pub trait Graphics {
-    fn setup_ids(&mut self, generator: &mut conrod::widget::id::Generator) -> Vec<conrod::widget::Id>;
-    fn do_layout(&mut self, ui: conrod::UiCell, config: &mut PluginConfig, ids: &mut Vec<conrod::widget::Id>);
+    fn widget_ids(&mut self) -> Vec<String>;
+    fn do_layout(&mut self, ui: conrod::UiCell, config: &mut PluginConfig, ids: &mut HashMap<String, conrod::widget::Id>);
+}
+
+pub fn widget_id(ids: &mut HashMap<String, conrod::widget::Id>, id: &str)  -> conrod::widget::Id {
+    *ids.get(id).unwrap()
 }

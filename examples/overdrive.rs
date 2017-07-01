@@ -1,10 +1,16 @@
+
 extern crate dd_core;
-use dd_core::*;
-use dd_core::conrod;
 use dd_core::conrod::widget::*;
+
+use dd_core::conrod;
+use dd_core::*;
+
+use std::collections::HashMap;
 
 #[derive(Default)]
 struct TestPlugin {}
+
+// widget_ids!(struct Ids { body, gain_slider, threshold_slider });
 
 impl BasePlugin for TestPlugin {
     fn new(host: HostCallback) -> (Self, PluginConfig) {(
@@ -45,16 +51,18 @@ impl BasePlugin for TestPlugin {
     }
 }
 
+
+
 impl Graphics for TestPlugin {
-    fn setup_ids(&mut self, generator: &mut conrod::widget::id::Generator) -> Vec<conrod::widget::Id> {
-        vec![
-            generator.next(),
-            generator.next(),
-            generator.next(),
+    fn widget_ids(&mut self) -> Vec<String> {
+        string_vec! [
+            "body",
+            "gain_slider",
+            "threshold_slider"
         ]
     }
 
-    fn do_layout(&mut self, ref mut ui: conrod::UiCell, config: &mut PluginConfig, ids: &mut Vec<conrod::widget::Id>) {
+    fn do_layout(&mut self, ref mut ui: conrod::UiCell, config: &mut PluginConfig, ids: &mut HashMap<String, conrod::widget::Id>) {
         use conrod::{color, Labelable, Colorable, Sizeable, Widget, Borderable, Positionable};
         use conrod::widget::Canvas;
 
@@ -63,7 +71,8 @@ impl Graphics for TestPlugin {
         // background
         Canvas::new()
             .color(color::Color::Rgba(0.1, 1.0, 0.1, 1.0))
-            .set(ids[0], ui);
+            .set(widget_id(ids, "body"), ui);
+            // .set(*ids.get("body").unwrap(), ui);
 
         // gain_slider
         if let Some(val) = Slider::new(config.params[0].value, 0.0, 1.0)
@@ -73,7 +82,7 @@ impl Graphics for TestPlugin {
             .border(border_width)
             // .label(&label)
             .label_color(color::WHITE)
-            .set(ids[1], ui) {
+            .set(widget_id(ids, "gain_slider"), ui) {
                 config.params[0].value = val;
                 config.host.automate(0 as i32, config.params[0].value);
             }
@@ -86,7 +95,7 @@ impl Graphics for TestPlugin {
             .border(border_width)
             // .label(&label)
             .label_color(color::WHITE)
-            .set(ids[2], ui) {
+            .set(widget_id(ids, "threshold_slider"), ui) {
                 config.params[1].value = val;
                 // info!("vst version: {:?}", config.host.vst_version());
                 config.host.automate(1 as i32, config.params[1].value);
