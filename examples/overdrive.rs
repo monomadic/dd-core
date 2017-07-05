@@ -8,14 +8,11 @@ use dd_core::conrod::text::{FontCollection};
 use std::collections::HashMap;
 
 #[derive(Default)]
-struct TestPlugin {
-    font: &'static [u8],
-}
+struct TestPlugin {}
 
 impl BasePlugin for TestPlugin {
     fn new(host: HostCallback) -> (Self, PluginConfig) {(
         TestPlugin {
-            font: include_bytes!("assets/RobotoMono-Bold.ttf"),
         },
         PluginConfig {
             name: "DDOverdrive".to_string(),
@@ -52,37 +49,53 @@ impl BasePlugin for TestPlugin {
     }
 }
 
+use conrod::position::{Align, Direction, Padding, Position, Relative};
 impl Graphics for TestPlugin {
-    fn widget_ids(&mut self) -> Vec<String> {
-        string_vec! [
-            "body",
-            "title",
-            "gain_slider",
-            "threshold_slider"
-        ]
+    fn get_config(&mut self) -> GraphicsConfig {
+        GraphicsConfig {
+            widget_ids: string_vec! [
+                "body",
+                "title",
+                "gain_slider",
+                "threshold_slider"
+            ],
+            theme: conrod::Theme {
+                name: "DeathDisco".to_string(),
+                padding: Padding::none(),
+                x_position: Position::Relative(Relative::Align(Align::Start), None),
+                y_position: Position::Relative(Relative::Direction(Direction::Backwards, 20.0), None),
+                background_color: conrod::color::DARK_CHARCOAL,
+                shape_color: conrod::color::LIGHT_CHARCOAL,
+                border_color: conrod::color::BLACK,
+                border_width: 1.0,
+                label_color: conrod::color::WHITE,
+                font_id: None,
+                font_size_large: 26,
+                font_size_medium: 18,
+                font_size_small: 12,
+                widget_styling: conrod::theme::StyleMap::default(),
+                mouse_drag_threshold: 0.0,
+                double_click_threshold: std::time::Duration::from_millis(500),
+            },
+            fonts: FontCollection::from_bytes(include_bytes!("assets/Roboto-Light.ttf") as &[u8]).into_font().unwrap(),
+        }
     }
 
-    fn setup_display(&mut self, window: &mut dd_core::gui::Window) {
-        window.ui.fonts.insert(
-            FontCollection::from_bytes(self.font as &[u8]).into_font().unwrap()
-        );
-    }
+    fn setup_display(&mut self, window: &mut dd_core::gui::Window) {}
 
     fn do_layout(&mut self, ref mut ui: conrod::UiCell, config: &mut PluginConfig, ids: &mut HashMap<String, conrod::widget::Id>) {
         use conrod::{color, Labelable, Colorable, Sizeable, Widget, Borderable, Positionable};
         use conrod::widget::Canvas;
-
-        const BORDER_WIDTH: f64 = 1.0;
-
+    
         // background
         Canvas::new()
             .color(color::Color::Rgba(0.1, 0.1, 0.1, 1.0))
             .set(widget_id(ids, "body"), ui);
 
-        Text::new("DD_Overdrive!")
-            .middle_of(widget_id(ids, "body"))
-            .color(conrod::color::RED)
-            .font_size(32)
+        Text::new("ddOverdrive")
+            .top_left_of(widget_id(ids, "body"))
+            .color(conrod::color::WHITE)
+            .font_size(12)
             .set(widget_id(ids, "title"), ui);
 
         // gain_slider
@@ -90,8 +103,7 @@ impl Graphics for TestPlugin {
             .w_h(300.0, 30.0)
             .x_y(0.0, 50.0)
             .color(color::LIGHT_BLUE)
-            .border(BORDER_WIDTH)
-            .label("Gain")
+            .label("GAIN")
             .label_color(color::WHITE)
             .set(widget_id(ids, "gain_slider"), ui) {
                 config.params[0].value = val;
@@ -103,8 +115,7 @@ impl Graphics for TestPlugin {
             .w_h(300.0, 30.0)
             .x_y(0.0, -50.0)
             .color(color::LIGHT_PURPLE)
-            .border(BORDER_WIDTH)
-            .label("Threshold")
+            .label("THRESHOLD")
             .label_color(color::WHITE)
             .set(widget_id(ids, "threshold_slider"), ui) {
                 config.params[1].value = val;

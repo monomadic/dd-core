@@ -10,6 +10,7 @@ use winit;
 
 use gui::GUIError;
 use Graphics;
+use GraphicsConfig;
 use PluginConfig;
 
 pub struct Window {
@@ -76,9 +77,11 @@ impl Window {
                 window.get_inner_size().ok_or(GUIError::CreationError("could not get_inner_size() on window.".to_string()))
             }));
 
-        use std;
+        let config = plugin.get_config();
 
-        let mut ui = conrod::UiBuilder::new([width as f64, height as f64]).build();
+        let mut ui = conrod::UiBuilder::new([width as f64, height as f64]).theme(config.theme).build();
+
+        ui.fonts.insert(config.fonts);
 
         let renderer = match conrod::backend::glium::Renderer::new(&window) {
             Ok(r) => r,
@@ -87,7 +90,7 @@ impl Window {
 
         let image_map = conrod::image::Map::new();
 
-        let mut ids = set_ids(&mut ui.widget_id_generator(), plugin.widget_ids());
+        let ids = set_ids(&mut ui.widget_id_generator(), config.widget_ids);
 
         let mut cw = Window{
             ui: ui,
