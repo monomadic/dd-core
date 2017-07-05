@@ -15,6 +15,7 @@ use conrod;
 use PluginConfig;
 pub trait Graphics {
     fn widget_ids(&mut self) -> Vec<String>;
+    fn setup_display(&mut self, window: &mut Window);
     fn do_layout(&mut self, ui: conrod::UiCell, config: &mut PluginConfig, ids: &mut HashMap<String, conrod::widget::Id>);
 }
 

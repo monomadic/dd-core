@@ -89,13 +89,15 @@ impl Window {
 
         let mut ids = set_ids(&mut ui.widget_id_generator(), plugin.widget_ids());
 
-        let cw = Window{
+        let mut cw = Window{
             ui: ui,
             display: window,
             image_map: image_map,
             renderer: renderer,
             ids: ids,
         };
+
+        plugin.setup_display(&mut cw);
         
         Ok(cw)
     }

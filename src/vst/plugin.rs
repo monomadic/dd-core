@@ -76,23 +76,5 @@ impl<P> Plugin for VSTPlugin<P> where P: BasePlugin + Graphics {
     fn process(&mut self, buffer: AudioBuffer<f32>) {
         self.plugin.process_dsp(buffer, &mut self.config);
     }
-
-    //     // // Split out the input and output buffers into two vectors
-    //     // let (inputs, outputs) = buffer.split();
-
-    //     // // For each buffer, transform the samples
-    //     // for (input_buffer, output_buffer) in inputs.iter().zip(outputs) {
-    //     //     for (input_sample, output_sample) in input_buffer.iter().zip(output_buffer) {
-
-    //     //         if *input_sample >= 0.0 {
-    //     //             *output_sample = input_sample.min(self.config.params[1].value) / self.config.params[1].value * self.config.params[0].value;
-    //     //         }
-    //     //         else {
-    //     //             *output_sample = input_sample.max(-self.config.params[1].value) / self.config.params[1].value * self.config.params[0].value;
-    //     //         }
-
-    //     //     }
-    //     // }
-    // }
 }
 

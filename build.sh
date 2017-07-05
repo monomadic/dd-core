@@ -3,12 +3,13 @@
 echo $PATH
 
 DYLIB_FILE=./target/release/examples/liboverdrive.dylib
-VST_NAME=DDPlugTest
+VST_NAME=DDOverdrive
+EXAMPLE=overdrive
 
 rm -rf ~/Library/Audio/Plug-Ins/VST/$VST_NAME.vst 2> /dev/null
 rm -rf $DYLIB_FILE 2> /dev/null
 
-cargo build --release --example overdrive
+cargo build --release --example $EXAMPLE
 mv ./target/release/examples/*.dylib $DYLIB_FILE 2> /dev/null
 
 if [ -f $DYLIB_FILE ]; then

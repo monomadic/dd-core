@@ -1,20 +1,21 @@
 
 extern crate dd_core;
-// use dd_core::conrod::widget::*;
-
-// use dd_core::conrod;
 use dd_core::*;
+use dd_core::conrod;
+use dd_core::conrod::widget::*;
+use dd_core::conrod::text::{FontCollection};
 
 use std::collections::HashMap;
 
-use std::path::{Path, PathBuf};
-
 #[derive(Default)]
-struct TestPlugin {}
+struct TestPlugin {
+    font: &'static [u8],
+}
 
 impl BasePlugin for TestPlugin {
     fn new(host: HostCallback) -> (Self, PluginConfig) {(
         TestPlugin {
+            font: include_bytes!("assets/RobotoMono-Bold.ttf"),
         },
         PluginConfig {
             name: "DDOverdrive".to_string(),
@@ -55,9 +56,16 @@ impl Graphics for TestPlugin {
     fn widget_ids(&mut self) -> Vec<String> {
         string_vec! [
             "body",
+            "title",
             "gain_slider",
             "threshold_slider"
         ]
+    }
+
+    fn setup_display(&mut self, window: &mut dd_core::gui::Window) {
+        window.ui.fonts.insert(
+            FontCollection::from_bytes(self.font as &[u8]).into_font().unwrap()
+        );
     }
 
     fn do_layout(&mut self, ref mut ui: conrod::UiCell, config: &mut PluginConfig, ids: &mut HashMap<String, conrod::widget::Id>) {
@@ -68,8 +76,14 @@ impl Graphics for TestPlugin {
 
         // background
         Canvas::new()
-            .color(color::Color::Rgba(0.1, 1.0, 0.1, 1.0))
+            .color(color::Color::Rgba(0.1, 0.1, 0.1, 1.0))
             .set(widget_id(ids, "body"), ui);
+
+        Text::new("DD_Overdrive!")
+            .middle_of(widget_id(ids, "body"))
+            .color(conrod::color::RED)
+            .font_size(32)
+            .set(widget_id(ids, "title"), ui);
 
         // gain_slider
         if let Some(val) = Slider::new(config.params[0].value, 0.0, 1.0)
@@ -77,7 +91,7 @@ impl Graphics for TestPlugin {
             .x_y(0.0, 50.0)
             .color(color::LIGHT_BLUE)
             .border(BORDER_WIDTH)
-            // .label(&label)
+            .label("Gain")
             .label_color(color::WHITE)
             .set(widget_id(ids, "gain_slider"), ui) {
                 config.params[0].value = val;
@@ -90,7 +104,7 @@ impl Graphics for TestPlugin {
             .x_y(0.0, -50.0)
             .color(color::LIGHT_PURPLE)
             .border(BORDER_WIDTH)
-            // .label(&label)
+            .label("Threshold")
             .label_color(color::WHITE)
             .set(widget_id(ids, "threshold_slider"), ui) {
                 config.params[1].value = val;

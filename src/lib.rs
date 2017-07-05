@@ -15,7 +15,7 @@ extern crate winit;
 pub mod vst;
 pub mod util;
 mod base;
-mod gui;
+pub mod gui;
 
 // external objects
 pub use vst2::*;
