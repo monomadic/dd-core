@@ -104,7 +104,6 @@ impl Graphics for TestPlugin {
             .x_y(0.0, 50.0)
             .color(color::LIGHT_BLUE)
             .label("GAIN")
-            .label_color(color::WHITE)
             .set(widget_id(ids, "gain_slider"), ui) {
                 config.params[0].value = val;
                 config.host.automate(0 as i32, config.params[0].value);
@@ -116,7 +115,6 @@ impl Graphics for TestPlugin {
             .x_y(0.0, -50.0)
             .color(color::LIGHT_PURPLE)
             .label("THRESHOLD")
-            .label_color(color::WHITE)
             .set(widget_id(ids, "threshold_slider"), ui) {
                 config.params[1].value = val;
                 config.host.automate(1 as i32, config.params[1].value);
