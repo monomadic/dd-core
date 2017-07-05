@@ -22,3 +22,7 @@ name = "dd_core"
 [[example]]
 name = "overdrive"
 crate-type = ["cdylib"]
+
+[[example]]
+name = "no_gui"
+crate-type = ["cdylib"]

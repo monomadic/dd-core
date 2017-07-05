@@ -1,11 +1,13 @@
 
 extern crate dd_core;
-use dd_core::conrod::widget::*;
+// use dd_core::conrod::widget::*;
 
-use dd_core::conrod;
+// use dd_core::conrod;
 use dd_core::*;
 
 use std::collections::HashMap;
+
+use std::path::{Path, PathBuf};
 
 #[derive(Default)]
 struct TestPlugin {}
@@ -15,7 +17,7 @@ impl BasePlugin for TestPlugin {
         TestPlugin {
         },
         PluginConfig {
-            name: "DDTestPlugin".to_string(),
+            name: "DDOverdrive".to_string(),
             vendor: "DeathDisco".to_string(),
             host: host,
             unique_id: 222666,

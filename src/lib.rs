@@ -13,6 +13,7 @@ pub extern crate conrod;
 extern crate winit;
 
 pub mod vst;
+pub mod util;
 mod base;
 mod gui;
 
