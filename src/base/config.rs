@@ -19,8 +19,11 @@ impl Default for PluginConfig {
             category: Category::Effect,
             inputs: 2,
             outputs: 2,
-
-            ..Default::default()
+            host: Default::default(),
+            name: "Default Plugin".to_string(),
+            params: Vec::new(),
+            unique_id: 00011112,
+            vendor: "DDCore".to_string(),
         }
     }
 }

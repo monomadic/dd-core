@@ -82,7 +82,7 @@ impl Graphics for TestPlugin {
         }
     }
 
-    fn setup_display(&mut self, window: &mut dd_core::gui::Window) {}
+    fn setup_display(&mut self, _: &mut dd_core::gui::Window) {}
 
     fn do_layout(&mut self, ref mut ui: conrod::UiCell, config: &mut PluginConfig, ids: &mut HashMap<String, conrod::widget::Id>) {
         use conrod::{color, Labelable, Colorable, Sizeable, Widget, Positionable};
