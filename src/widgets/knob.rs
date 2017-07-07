@@ -25,7 +25,7 @@ widget_style!{
 
 widget_ids! {
     struct Ids {
-        circle,
+        point_path,
     }
 }
 
@@ -67,6 +67,19 @@ impl<'a> Widget for Knob<'a> {
 
     fn update(self, args: widget::UpdateArgs<Self>) -> Self::Event {
         let widget::UpdateArgs { id, state, rect, mut ui, style, .. } = args;
+
+        use conrod::Colorable;
+
+        let points = vec!([0.0, 0.1], [1.0, 100.0]).into_iter();
+        let color = style.color(ui.theme());
+
+        widget::PointPath::new(points)
+            .graphics_for(id)
+            .parent(id)
+            .thickness(1.0)
+            .color(color)
+            .set(state.ids.point_path, ui);
+
         None
     }
 }
