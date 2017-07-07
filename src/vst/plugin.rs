@@ -1,20 +1,17 @@
 use vst2::buffer::AudioBuffer;
-use vst2::plugin::{Category, Plugin, Info, HostCallback};
+use vst2::plugin::{Plugin, Info, HostCallback};
 use vst2::editor::Editor;
 use vst2::host::Host;
 
 use simplelog;
 use std::fs::File;
 
-use gui::Window;
-
 use vst::{ VSTPlugin };
 
 use PluginConfig;
 use BasePlugin;
-use Graphics;
 
-impl<P> Plugin for VSTPlugin<P> where P: BasePlugin + Graphics {
+impl<P> Plugin for VSTPlugin<P> where P: BasePlugin {
     fn new(host: HostCallback) -> Self {
 
         #[cfg(any(target_os = "macos", target_os = "linux"))]
@@ -27,7 +24,6 @@ impl<P> Plugin for VSTPlugin<P> where P: BasePlugin + Graphics {
         let (plugin, config) = P::new(host);
 
         VSTPlugin {
-            window: None,
             plugin: plugin,
             config: config,
         }
@@ -50,7 +46,7 @@ impl<P> Plugin for VSTPlugin<P> where P: BasePlugin + Graphics {
     fn can_be_automated(&self, index: i32) -> bool { true }
 
     fn get_editor(&mut self) -> Option<&mut Editor> {
-        Some(self)
+        self.plugin.get_editor()
     }
 
     fn get_parameter(&self, index: i32) -> f32 {

@@ -1,0 +1,7 @@
+[package]
+name = "dd_core_glium"
+version = "0.1.0"
+authors = ["Rob Saunders <rob@wearebrandnew.com>"]
+
+[lib]
+name = "dd_core_glium"

@@ -41,8 +41,8 @@ impl<P:BasePlugin + Graphics> Editor for VSTPlugin<P> {
     // fn key_down(&mut self, keycode: KeyCode) -> bool { info!("VST plugin called key_down()"); false }
 
     fn idle(&mut self) {
-		if let Some(ref mut window) = self.window {
+        if let Some(ref mut window) = self.window {
             window.draw(&mut self.config, &mut self.plugin);
-		}
+        }
     }
 }

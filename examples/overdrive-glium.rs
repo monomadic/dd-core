@@ -1,16 +1,10 @@
-
 extern crate dd_core;
-// use dd_core::conrod::widget::*;
-
-// use dd_core::conrod;
 use dd_core::*;
-
 use std::collections::HashMap;
 
-use std::path::{Path, PathBuf};
-
 #[derive(Default)]
-struct TestPlugin {}
+struct TestPlugin {
+}
 
 impl BasePlugin for TestPlugin {
     fn new(host: HostCallback) -> (Self, PluginConfig) {(
@@ -49,6 +43,32 @@ impl BasePlugin for TestPlugin {
             }
         }
     }
+    fn get_editor(&mut self) -> Option<&mut Editor> { None }
 }
+
+// impl Editor for BasePlugin {
+//     fn size(&self) -> (i32, i32) { (500, 300) }
+//     fn position(&self) -> (i32, i32) { (0, 0) }
+//     fn is_open(&mut self) -> bool { self.window.is_some() }
+
+//     fn open(&mut self, window: *mut c_void) {
+//         match Window::new(window as *mut c_void, &mut self.plugin) {
+//             Ok(w) => {
+//                 self.window = Some(w);
+//             },
+//             Err(why) => { error!("{:?}", why) }
+//         }
+//     }
+
+//     fn close(&mut self) {
+//         self.window = None;
+//     }
+
+//     fn idle(&mut self) {
+//         if let Some(ref mut window) = self.window {
+//             window.draw(&mut self.config, &mut self.plugin);
+//         }
+//     }
+// }
 
 create_plugin!(TestPlugin);

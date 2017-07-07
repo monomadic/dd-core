@@ -1,0 +1,10 @@
+[package]
+name = "dd_core_conrod"
+version = "0.1.0"
+authors = ["Rob Saunders <rob@wearebrandnew.com>"]
+
+[lib]
+name = "dd_core_conrod"
+
+[deps]
+conrod = { version = "0.52.0", features = ["piston", "glium", "winit"] }
