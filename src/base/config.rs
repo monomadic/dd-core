@@ -1,5 +1,3 @@
-use vst2::editor::Editor;
-
 use HostCallback;
 use Category;
 use Param;
