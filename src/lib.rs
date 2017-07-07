@@ -1,21 +1,20 @@
-#![feature(macro_reexport)]
-
-#[macro_use] 
+#[macro_use]
 extern crate vst2;
 
 #[macro_use] 
 extern crate log;
 extern crate simplelog;
 
-#[macro_reexport(widget_ids)]
+#[macro_use]
 pub extern crate conrod;
 
 extern crate winit;
 
 pub mod vst;
 pub mod util;
-mod base;
 pub mod gui;
+pub mod widgets;
+mod base;
 
 // external objects
 pub use vst2::*;

@@ -1,6 +1,6 @@
-
 extern crate dd_core;
 use dd_core::*;
+use dd_core::widgets::*;
 use dd_core::conrod;
 use dd_core::conrod::widget::*;
 use dd_core::conrod::text::{FontCollection};
@@ -56,6 +56,7 @@ impl Graphics for TestPlugin {
             widget_ids: string_vec! [
                 "body",
                 "title",
+                "knob",
                 "gain_slider",
                 "threshold_slider"
             ],
@@ -84,7 +85,7 @@ impl Graphics for TestPlugin {
     fn setup_display(&mut self, window: &mut dd_core::gui::Window) {}
 
     fn do_layout(&mut self, ref mut ui: conrod::UiCell, config: &mut PluginConfig, ids: &mut HashMap<String, conrod::widget::Id>) {
-        use conrod::{color, Labelable, Colorable, Sizeable, Widget, Borderable, Positionable};
+        use conrod::{color, Labelable, Colorable, Sizeable, Widget, Positionable};
         use conrod::widget::Canvas;
     
         // background
@@ -97,6 +98,9 @@ impl Graphics for TestPlugin {
             .color(conrod::color::WHITE)
             .font_size(12)
             .set(widget_id(ids, "title"), ui);
+
+        Knob::new()
+            .set(widget_id(ids, "knob"), ui);
 
         // gain_slider
         if let Some(val) = Slider::new(config.params[0].value, 0.0, 1.0)
