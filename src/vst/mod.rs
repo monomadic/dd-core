@@ -1,6 +1,6 @@
 pub mod plugin;
 use PluginConfig;
-use HostCallback;
+// use HostCallback;
 use BasePlugin;
 
 #[derive(Default)]

@@ -1,14 +1,14 @@
 use vst2::buffer::AudioBuffer;
 use vst2::plugin::{ Plugin, Info, HostCallback };
 use vst2::editor::Editor;
-use vst2::host::Host;
+// use vst2::host::Host;
 
 use simplelog;
 use std::fs::File;
 
 use vst::{ VSTPlugin };
 
-use PluginConfig;
+// use PluginConfig;
 use BasePlugin;
 
 impl<P> Plugin for VSTPlugin<P> where P: BasePlugin {
@@ -17,9 +17,11 @@ impl<P> Plugin for VSTPlugin<P> where P: BasePlugin {
         #[cfg(any(target_os = "macos", target_os = "linux"))]
         let _ = simplelog::CombinedLogger::init(
             vec![
-                simplelog::WriteLogger::new(simplelog::LogLevelFilter::Info, simplelog::Config::default(), File::create("/tmp/simplesynth.log").expect("log to open correctly.")),
-            ]
-        );
+                simplelog::WriteLogger::new(
+                    simplelog::LogLevelFilter::Info,
+                    simplelog::Config::default(),
+                    File::create("/tmp/simplesynth.log").expect("log to open correctly.")),
+            ]);
 
         let (plugin, config) = P::new(host);
 
@@ -43,10 +45,15 @@ impl<P> Plugin for VSTPlugin<P> where P: BasePlugin {
         }
     }
 
-    fn can_be_automated(&self, index: i32) -> bool { true }
+    fn can_be_automated(&self, _: i32) -> bool { true }
 
     fn get_editor(&mut self) -> Option<&mut Editor> {
         self.plugin.get_editor()
+        // if self.editor.is_some() {
+        //     Some(self.editor)
+        // } else {
+        //     None
+        // }
     }
 
     fn get_parameter(&self, index: i32) -> f32 {
@@ -65,7 +72,7 @@ impl<P> Plugin for VSTPlugin<P> where P: BasePlugin {
         format!("{}", self.config.params[index as usize].value * 100.0)
     }
 
-    fn get_parameter_label(&self, index: i32) -> String {
+    fn get_parameter_label(&self, _: i32) -> String {
         "%".to_string()
     }
 
@@ -73,4 +80,3 @@ impl<P> Plugin for VSTPlugin<P> where P: BasePlugin {
         self.plugin.process_dsp(buffer, &mut self.config);
     }
 }
-

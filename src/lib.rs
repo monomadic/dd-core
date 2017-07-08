@@ -1,7 +1,7 @@
-#[macro_use]
+// #[macro_use]
 extern crate vst2;
 
-#[macro_use] 
+// #[macro_use] 
 extern crate log;
 extern crate simplelog;
 
@@ -24,10 +24,16 @@ use vst::VSTPlugin;
 #[macro_export]
 macro_rules! create_plugin {
     ($config:ty) => {
-    	// info!("starting VST plugin.");
         plugin_main!(vst::VSTPlugin<$config>);
     }
 }
+
+use std::os::raw::c_void;
+pub trait GUI {
+    fn open(&mut self, window: *mut c_void);
+}
+
+// utility macros.
 
 #[macro_export]
 macro_rules! hashmap {

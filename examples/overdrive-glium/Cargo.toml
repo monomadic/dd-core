@@ -1,0 +1,17 @@
+[package]
+name = "dd_overdrive_glium"
+version = "0.1.0"
+authors = ["Rob Saunders <rob@wearebrandnew.com>"]
+
+[dependencies]
+dd_core = { path = "/Users/rob/Projects/dd-core" }
+dd_core_glium = { path = "/Users/rob/Projects/dd-core/deps/dd-core-glium" }
+vst2 = { git = "https://github.com/overdrivenpotato/rust-vst2" }
+
+[lib]
+name = "overdrive_glium"
+crate-type = ["cdylib"]
+
+# [replace]
+# "winit:0.5.11" = { git = "https://github.com/robsaunders/winit-vst" }
+# # "winit:0.5.11" = { path = "../winit-vst" }

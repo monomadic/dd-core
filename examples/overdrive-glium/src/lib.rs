@@ -1,14 +1,19 @@
 extern crate dd_core;
 use dd_core::*;
-use std::collections::HashMap;
+use std::os::raw::c_void;
+
+extern crate dd_core_glium;
+use dd_core_glium::{ Window, WindowConfig };
 
 #[derive(Default)]
 struct TestPlugin {
+    window: Option<Window>,
 }
 
 impl BasePlugin for TestPlugin {
     fn new(host: HostCallback) -> (Self, PluginConfig) {(
         TestPlugin {
+            window: Some(Window::new()),
         },
         PluginConfig {
             name: "DDOverdrive".to_string(),
@@ -43,32 +48,32 @@ impl BasePlugin for TestPlugin {
             }
         }
     }
-    fn get_editor(&mut self) -> Option<&mut Editor> { None }
+    fn get_editor(&mut self) -> Option<&mut Editor> {
+        Some(self)
+    }
 }
 
-// impl Editor for BasePlugin {
-//     fn size(&self) -> (i32, i32) { (500, 300) }
-//     fn position(&self) -> (i32, i32) { (0, 0) }
-//     fn is_open(&mut self) -> bool { self.window.is_some() }
+impl Editor for TestPlugin {
+    fn size(&self) -> (i32, i32) { (500, 300) }
+    fn position(&self) -> (i32, i32) { (0, 0) }
+    fn is_open(&mut self) -> bool { self.window.is_some() }
+    fn close(&mut self) { self.window = None; }
 
-//     fn open(&mut self, window: *mut c_void) {
-//         match Window::new(window as *mut c_void, &mut self.plugin) {
-//             Ok(w) => {
-//                 self.window = Some(w);
-//             },
-//             Err(why) => { error!("{:?}", why) }
-//         }
-//     }
+    fn open(&mut self, handle: *mut c_void) {
+        self.window = Window::new(handle);
+        // match Window::new(window as *mut c_void, &mut self.plugin) {
+        //     Ok(w) => {
+        //         self.window = Some(w);
+        //     },
+        //     Err(why) => { panic!("{:?}", why) }
+        // }
+    }
 
-//     fn close(&mut self) {
-//         self.window = None;
-//     }
-
-//     fn idle(&mut self) {
-//         if let Some(ref mut window) = self.window {
-//             window.draw(&mut self.config, &mut self.plugin);
-//         }
-//     }
-// }
+    fn idle(&mut self) {
+        if let Some(ref mut window) = self.window {
+            window.draw(&mut self.config, &mut self.plugin);
+        }
+    }
+}
 
 create_plugin!(TestPlugin);

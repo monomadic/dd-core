@@ -3,5 +3,9 @@ name = "dd_core_glium"
 version = "0.1.0"
 authors = ["Rob Saunders <rob@wearebrandnew.com>"]
 
+[dependencies]
+vst2 = { git = "https://github.com/overdrivenpotato/rust-vst2" }
+dd_core = { path = "/Users/rob/Projects/dd-core" }
+
 [lib]
 name = "dd_core_glium"

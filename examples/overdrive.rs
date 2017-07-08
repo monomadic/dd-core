@@ -43,6 +43,10 @@ impl BasePlugin for TestPlugin {
             }
         }
     }
+
+    fn get_editor(&mut self) -> Option<&mut Editor> {
+        None
+    }
 }
 
 create_plugin!(TestPlugin);
