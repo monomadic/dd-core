@@ -42,7 +42,7 @@ impl<P:BasePlugin + Graphics> Editor for VSTPlugin<P> {
 
     fn idle(&mut self) {
 		if let Some(ref mut window) = self.window {
-            window.draw(&mut self.config, &mut self.plugin);
+            // window.draw(&mut self.config, &mut self.plugin);
 		}
     }
 }

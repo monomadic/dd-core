@@ -5,8 +5,8 @@ extern crate vst2;
 extern crate log;
 extern crate simplelog;
 
-#[macro_use]
-pub extern crate conrod;
+// #[macro_use]
+// pub extern crate conrod;
 
 extern crate winit;
 
@@ -24,8 +24,8 @@ pub use vst2::host::Host;
 pub use base::config::PluginConfig;
 pub use base::param::Param;
 pub use base::BasePlugin;
-pub use gui::{ Graphics, GraphicsConfig };
-pub use gui::widget_id;
+pub use gui::{ Graphics };
+// pub use gui::widget_id;
 
 // internal objects
 use vst::VSTPlugin;

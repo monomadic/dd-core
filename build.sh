@@ -2,9 +2,9 @@
 
 echo $PATH
 
-DYLIB_FILE=./target/release/examples/liboverdrive.dylib
 VST_NAME=DDOverdrive
-EXAMPLE=overdrive
+EXAMPLE=no_gui
+DYLIB_FILE=./target/release/examples/lib$EXAMPLE.dylib
 
 rm -rf ~/Library/Audio/Plug-Ins/VST/$VST_NAME.vst 2> /dev/null
 rm -rf $DYLIB_FILE 2> /dev/null

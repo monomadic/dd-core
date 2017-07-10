@@ -6,7 +6,7 @@ use vst2::host::Host;
 use simplelog;
 use std::fs::File;
 
-use gui::Window;
+// use gui::Window;
 
 use vst::{ VSTPlugin };
 
@@ -14,7 +14,7 @@ use PluginConfig;
 use BasePlugin;
 use Graphics;
 
-impl<P> Plugin for VSTPlugin<P> where P: BasePlugin + Graphics {
+impl<P> Plugin for VSTPlugin<P> where P: BasePlugin {
     fn new(host: HostCallback) -> Self {
 
         #[cfg(any(target_os = "macos", target_os = "linux"))]
@@ -50,7 +50,8 @@ impl<P> Plugin for VSTPlugin<P> where P: BasePlugin + Graphics {
     fn can_be_automated(&self, index: i32) -> bool { true }
 
     fn get_editor(&mut self) -> Option<&mut Editor> {
-        Some(self)
+        // Some(self)
+        None
     }
 
     fn get_parameter(&self, index: i32) -> f32 {

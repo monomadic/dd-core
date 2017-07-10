@@ -7,7 +7,8 @@ authors = ["Rob Saunders <rob@wearebrandnew.com>"]
 vst2 = { git = "https://github.com/overdrivenpotato/rust-vst2" }
 winit = { git = "https://github.com/robsaunders/winit-vst" }
 # winit = { path = "../winit-vst" }
-conrod = { version = "0.52.0", features = ["piston", "glium", "winit"] }
+# conrod = { version = "0.52.0", features = ["piston", "glium", "winit"] }
+glium = { version = "0.16.0" }
 log = "0.3"
 simplelog = "0.4.2"
 log-panics = "1.1.0"
