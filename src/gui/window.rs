@@ -1,6 +1,6 @@
 use winit;
 //use glium;
-use glium::{ DisplayBuild, Surface };
+use glium::{ DisplayBuild, Surface, Frame };
 use glium::backend::glutin_backend::GlutinFacade;
 
 use glutin;
@@ -9,6 +9,8 @@ use std::os::raw::c_void;
 use gui::GUIError;
 use Graphics;
 use PluginConfig;
+use widgets;
+use widgets::*;
 
 pub struct Window {
     display: GlutinFacade,
@@ -51,8 +53,12 @@ impl Window {
 //        for event in self.display.poll_events() {
 //        }
         let mut target = self.display.draw();
-        target.clear_color(0.0, 0.0, 0.0, 0.0);
+        target.clear_color(0.1, 0.1, 0.1, 1.0);
 //        ui.renderer.draw(&mut ui.display, &mut target);
+
+        Triangle::new()
+            .draw(&self.display, &mut target);
+
         target.finish().expect("target to unwrap");
     }
 }
