@@ -4,7 +4,7 @@ extern crate vst2;
 extern crate log;
 extern crate simplelog;
 
-extern crate glium;
+#[macro_use] extern crate glium;
 
 extern crate winit;
 extern crate glutin;
