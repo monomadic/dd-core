@@ -1,14 +1,13 @@
-#[macro_use]
 extern crate vst2;
 
 #[macro_use] 
 extern crate log;
 extern crate simplelog;
 
-// #[macro_use]
-// pub extern crate conrod;
+extern crate glium;
 
 extern crate winit;
+extern crate glutin;
 
 pub mod vst;
 pub mod util;
@@ -28,7 +27,7 @@ pub use gui::{ Graphics };
 // pub use gui::widget_id;
 
 // internal objects
-use vst::VSTPlugin;
+//use vst::VSTPlugin;
 
 #[macro_export]
 macro_rules! create_plugin {

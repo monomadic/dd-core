@@ -10,11 +10,11 @@ use std::fs::File;
 
 use vst::{ VSTPlugin };
 
-use PluginConfig;
+// use PluginConfig;
 use BasePlugin;
 use Graphics;
 
-impl<P> Plugin for VSTPlugin<P> where P: BasePlugin {
+impl<P:BasePlugin+Graphics> Plugin for VSTPlugin<P> {
     fn new(host: HostCallback) -> Self {
 
         #[cfg(any(target_os = "macos", target_os = "linux"))]
@@ -50,8 +50,7 @@ impl<P> Plugin for VSTPlugin<P> where P: BasePlugin {
     fn can_be_automated(&self, index: i32) -> bool { true }
 
     fn get_editor(&mut self) -> Option<&mut Editor> {
-        // Some(self)
-        None
+        Some(self)
     }
 
     fn get_parameter(&self, index: i32) -> f32 {

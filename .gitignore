@@ -23,3 +23,5 @@ rusti.sh
 
 Cargo.lock
 *.vst
+
+.idea

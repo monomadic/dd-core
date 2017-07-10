@@ -1,9 +1,5 @@
 extern crate dd_core;
 use dd_core::*;
-// use dd_core::widgets::*;
-// use dd_core::conrod;
-// use dd_core::conrod::widget::*;
-// use dd_core::conrod::text::{FontCollection};
 
 // use std::collections::HashMap;
 
@@ -23,7 +19,6 @@ impl BasePlugin for TestPlugin {
             inputs: 2,
             outputs: 2,
             category: Category::Effect,
-            graphics: Some(Self),
             params: vec![
                 Param{ name: "Gain".to_string(), value: 0.001 },
                 Param{ name: "Threshold".to_string(), value: 0.001 },

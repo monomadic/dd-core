@@ -3,7 +3,7 @@
 echo $PATH
 
 VST_NAME=DDOverdrive
-EXAMPLE=no_gui
+EXAMPLE=overdrive
 DYLIB_FILE=./target/release/examples/lib$EXAMPLE.dylib
 
 rm -rf ~/Library/Audio/Plug-Ins/VST/$VST_NAME.vst 2> /dev/null
