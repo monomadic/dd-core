@@ -1,4 +1,4 @@
-use vst2::editor::{Editor, KnobMode, KeyCode};
+use vst2::editor::Editor;
 use vst::VSTPlugin;
 use std::os::raw::c_void;
 

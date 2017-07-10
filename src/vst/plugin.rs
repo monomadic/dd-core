@@ -1,7 +1,7 @@
 use vst2::buffer::AudioBuffer;
-use vst2::plugin::{Category, Plugin, Info, HostCallback};
+use vst2::plugin::{Plugin, Info, HostCallback};
 use vst2::editor::Editor;
-use vst2::host::Host;
+// use vst2::host::Host;
 
 use simplelog;
 use std::fs::File;
@@ -47,7 +47,7 @@ impl<P:BasePlugin+Graphics> Plugin for VSTPlugin<P> {
         }
     }
 
-    fn can_be_automated(&self, index: i32) -> bool { true }
+//    fn can_be_automated(&self, index: i32) -> bool { true }
 
     fn get_editor(&mut self) -> Option<&mut Editor> {
         Some(self)
@@ -69,7 +69,7 @@ impl<P:BasePlugin+Graphics> Plugin for VSTPlugin<P> {
         format!("{}", self.config.params[index as usize].value * 100.0)
     }
 
-    fn get_parameter_label(&self, index: i32) -> String {
+    fn get_parameter_label(&self, _: i32) -> String {
         "%".to_string()
     }
 

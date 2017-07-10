@@ -2,12 +2,12 @@ mod editor;
 pub mod plugin;
 use gui::Window;
 
-use vst2::editor::Editor;
+// use vst2::editor::Editor;
 
 use PluginConfig;
-use HostCallback;
+// use HostCallback;
 use BasePlugin;
-use Graphics;
+// use Graphics;
 
 #[derive(Default)]
 pub struct VSTPlugin<P:BasePlugin> {
