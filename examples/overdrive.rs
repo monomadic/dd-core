@@ -5,7 +5,6 @@ use dd_core::*;
 
 #[derive(Default)]
 struct TestPlugin {}
-struct PluginGui {}
 
 impl BasePlugin for TestPlugin {
     fn new(host: HostCallback) -> (Self, PluginConfig) {(
@@ -19,6 +18,7 @@ impl BasePlugin for TestPlugin {
             inputs: 2,
             outputs: 2,
             category: Category::Effect,
+            size: (360,160),
             params: vec![
                 Param{ name: "Gain".to_string(), value: 0.001 },
                 Param{ name: "Threshold".to_string(), value: 0.001 },

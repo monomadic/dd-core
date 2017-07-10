@@ -10,7 +10,7 @@ use Graphics;
 
 impl<P:BasePlugin + Graphics> Editor for VSTPlugin<P> {
     fn size(&self) -> (i32, i32) {
-        (500, 300)
+        self.config.size
     }
 
     fn position(&self) -> (i32, i32) {

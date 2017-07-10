@@ -15,7 +15,7 @@ pub struct Window {
 }
 
 impl Window {
-    pub fn new<P:Graphics>(handle: *mut c_void, plugin: &mut P) -> Result<Window, GUIError> {
+    pub fn new<P:Graphics>(handle: *mut c_void, _: &mut P) -> Result<Window, GUIError> {
         let wb = winit::WindowBuilder::new()
             .with_visibility(true)
             .with_transparency(false)
