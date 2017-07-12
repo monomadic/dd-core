@@ -11,9 +11,11 @@ use Graphics;
 use PluginConfig;
 use widgets;
 use widgets::*;
+use Renderer;
 
 pub struct Window {
-    display: GlutinFacade,
+//    display: GlutinFacade,
+    renderer: Renderer,
 }
 
 impl Window {
@@ -38,7 +40,8 @@ impl Window {
                 info!("Window spawned OK with conrod.");
 
 //                let app = Window::setup_display(display, plugin);
-                Ok(Window{ display: display })
+
+                Ok(Window{ renderer: Renderer::new(display) })
 
 //                match app {
 //                    Ok(a) => Ok(a),
@@ -52,13 +55,18 @@ impl Window {
 //        let mut events = vec![];
 //        for event in self.display.poll_events() {
 //        }
-        let mut target = self.display.draw();
-        target.clear_color(0.1, 0.1, 0.1, 1.0);
+//        let mut target = self.display.draw();
+//        target.clear_color(0.1, 0.1, 0.1, 1.0);
 //        ui.renderer.draw(&mut ui.display, &mut target);
 
-        Triangle::new()
-            .draw(&self.display, &mut target);
+//        Triangle::new()
+//            .draw(&self.display, &mut target);
+//        let mut renderer = Renderer::new(self.display);
 
-        target.finish().expect("target to unwrap");
+        self.renderer.set();
+        self.renderer.render();
+
+
+
     }
 }

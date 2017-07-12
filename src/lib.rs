@@ -13,6 +13,7 @@ pub mod vst;
 pub mod util;
 pub mod gui;
 pub mod widgets;
+pub mod render;
 mod base;
 
 // external objects
@@ -24,6 +25,7 @@ pub use base::config::PluginConfig;
 pub use base::param::Param;
 pub use base::BasePlugin;
 pub use gui::{ Graphics };
+pub use render::Renderer;
 // pub use gui::widget_id;
 
 // internal objects

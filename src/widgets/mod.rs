@@ -6,8 +6,7 @@ mod triangle;
 pub use self::knob::*;
 pub use self::triangle::*;
 
-
 pub trait Widget {
-    fn new() -> Self;
-    fn draw(&self, display: &GlutinFacade, target: &mut Frame);
+    fn new(display: &GlutinFacade) -> Self;
+    fn draw(&self, target: &mut Frame);
 }
