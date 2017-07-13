@@ -23,14 +23,12 @@ impl Window {
         let wb = winit::WindowBuilder::new()
             .with_visibility(true)
             .with_transparency(false)
-            .with_dimensions(500, 300)
             .with_parent(handle);
 
         match glutin::WindowBuilder::from_winit_builder(wb)
             .with_decorations(false)
             // .with_vsync()
             // .with_multisampling(8)
-            // .with_dimensions(500, 300)
             // .with_visibility(true)
             // .with_transparency(false)
             // .with_gl_robustness(Robustness::RobustLoseContextOnReset)
@@ -52,21 +50,14 @@ impl Window {
     }
 
     pub fn draw<P:Graphics>(&mut self, config: &mut PluginConfig, plugin: &mut P) {
-//        let mut events = vec![];
-//        for event in self.display.poll_events() {
-//        }
-//        let mut target = self.display.draw();
-//        target.clear_color(0.1, 0.1, 0.1, 1.0);
-//        ui.renderer.draw(&mut ui.display, &mut target);
+        use widgets::*;
+        use Point;
+        use Rect;
 
-//        Triangle::new()
-//            .draw(&self.display, &mut target);
-//        let mut renderer = Renderer::new(self.display);
+        Triangle::new(Rect{ origin: Point{ x:0, y:0 }, width:100, height:100 })
+            .set(&mut self.renderer);
 
         self.renderer.set();
         self.renderer.render();
-
-
-
     }
 }

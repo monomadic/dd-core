@@ -9,6 +9,9 @@ extern crate simplelog;
 extern crate winit;
 extern crate glutin;
 
+extern crate num_traits;
+extern crate cgmath;
+
 pub mod vst;
 pub mod util;
 pub mod gui;
@@ -25,7 +28,7 @@ pub use base::config::PluginConfig;
 pub use base::param::Param;
 pub use base::BasePlugin;
 pub use gui::{ Graphics };
-pub use render::Renderer;
+pub use render::{Renderer, Rect, Point};
 // pub use gui::widget_id;
 
 // internal objects
