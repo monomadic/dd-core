@@ -59,11 +59,11 @@ impl Renderer{
 
     pub fn set(&mut self) { self.instructions.push(RenderElement::Triangle(Rect{ origin: Point{ x:0, y:0 }, width:100, height:100 }))}
 
-    pub fn get_inner_size(&mut self) -> (u32, u32) {
+    pub fn get_inner_size_points(&mut self) -> (u32, u32) {
 //        use glium::backend::glutin_backend::WinRef;
         self.display.get_window()
             .expect("window to exist")
-            .get_inner_size()
+            .get_inner_size_points()
             .expect("window to exist")
     }
 
@@ -74,8 +74,8 @@ impl Renderer{
         for instruction in self.instructions.clone() {
             match instruction {
                 RenderElement::Triangle(position) => {
-                    let (width, height) = self.get_inner_size();
-                    
+                    let (view_width, view_height) = self.get_inner_size_points();
+
                     #[derive(Copy, Clone)]
                     struct Vertex {
                         position: [f32; 2],
@@ -83,15 +83,17 @@ impl Renderer{
 
                     implement_vertex!(Vertex, position);
 
-                    let t = 0.0002;
-
                     use num_traits::float::Float;
 
+
+                    let flat_projection: [[f32; 4]; 4] = cgmath::ortho(0.0, 1.0, 0.0, 1.0, -1.0, 1.0).into();
+
                     // left right bottom top near far
-                    let ortho_perspective: [[f32; 4]; 4] = cgmath::ortho(0.0, 1.0, 0.0, 1.0, -1.0, 1.0).into();
+                    let ortho_projection: [[f32; 4]; 4] = cgmath::ortho(0.0, (view_width as f32), 0.0, (view_height as f32), -1.0, 1.0).into();
 
                     let uniforms = uniform! {
-                        projection: ortho_perspective,
+                        flat_projection: flat_projection,
+                        ortho_projection: ortho_projection,
                         matrix: [
                             [1.0, 0.0, 0.0, 1.0],
                             [0.0, 1.0, 0.0, 1.0],
@@ -103,9 +105,9 @@ impl Renderer{
                     let indices = glium::index::NoIndices(glium::index::PrimitiveType::TrianglesList);
 
                     let shape = vec![
-                        Vertex { position: [ 0.0,  0.0] },
-                        Vertex { position: [ 0.5,  1.0] },
-                        Vertex { position: [ 1.0,  0.0] },
+                        Vertex { position: [ 0.0,  0.0 ] },
+                        Vertex { position: [ 0.5,  1.0 ] },
+                        Vertex { position: [ 1.0,  0.0 ] },
                     ];
 
                     let vertex_buffer = glium::VertexBuffer::new(&self.display, &shape).unwrap();
