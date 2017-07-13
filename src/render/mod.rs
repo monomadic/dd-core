@@ -38,13 +38,6 @@ pub struct Renderer {
     pub instructions: Vec<RenderElement>,
 }
 
-//pub fn ui_projection(width: f64, height: f64) -> Mat4 {
-//    // left, right, bottom, top, near, far
-////    cgmath::ortho(0.0, width, 0.0, height, -100.0, 100.0) // having trouble with this z stuff
-//    let ortho_matrix: cgmath::Matrix4<f64> = cgmath::ortho(0.0, 800.0, 0.0, 500.0, -1.0, 1.0);
-
-//}
-
 impl Renderer{
     pub fn new(display: glium::Display) -> Renderer {
         let triangle_program = program_from_shader(&display,
@@ -60,7 +53,6 @@ impl Renderer{
     pub fn set(&mut self) { self.instructions.push(RenderElement::Triangle(Rect{ origin: Point{ x:0, y:0 }, width:100, height:100 }))}
 
     pub fn get_inner_size_points(&mut self) -> (u32, u32) {
-//        use glium::backend::glutin_backend::WinRef;
         self.display.get_window()
             .expect("window to exist")
             .get_inner_size_points()
