@@ -42,7 +42,19 @@ impl<P:BasePlugin + Graphics> Editor for VSTPlugin<P> {
 
     fn idle(&mut self) {
 		if let Some(ref mut window) = self.window {
-             window.draw(&mut self.config, &mut self.plugin);
+            use std;
+            let last_update = std::time::Instant::now();
+
+            // We don't want to loop any faster than 60 FPS, so wait until it has been at least
+            // 16ms since the last yield.
+            let sixteen_ms = std::time::Duration::from_millis(116);
+            let now = std::time::Instant::now();
+            let duration_since_last_update = now.duration_since(last_update);
+            if duration_since_last_update < sixteen_ms {
+                std::thread::sleep(sixteen_ms - duration_since_last_update);
+            }
+
+            window.draw(&mut self.config, &mut self.plugin);
 		}
     }
 }

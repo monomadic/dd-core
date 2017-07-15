@@ -4,7 +4,9 @@ use glium::{ DisplayBuild, Surface, Frame };
 use glium::backend::glutin_backend::GlutinFacade;
 
 use glutin;
+use std;
 use std::os::raw::c_void;
+use std::time;
 
 use gui::GUIError;
 use Graphics;
@@ -16,6 +18,7 @@ use Renderer;
 pub struct Window {
 //    display: GlutinFacade,
     renderer: Renderer,
+    last_update: time::Instant, // used for frame limiting.
 }
 
 impl Window {
@@ -39,7 +42,7 @@ impl Window {
 
 //                let app = Window::setup_display(display, plugin);
 
-                Ok(Window{ renderer: Renderer::new(display) })
+                Ok(Window{ renderer: Renderer::new(display), last_update: std::time::Instant::now() })
 
 //                match app {
 //                    Ok(a) => Ok(a),
@@ -54,10 +57,19 @@ impl Window {
         use Point;
         use Rect;
 
-        Triangle::new(Rect{ origin: Point{ x:0, y:0 }, width:100, height:100 })
-            .set(&mut self.renderer);
+        let now = std::time::Instant::now();
+        let duration_since_last_update = now.duration_since(self.last_update);
 
-        self.renderer.set();
-        self.renderer.render();
+        let sixteen_ms = std::time::Duration::from_millis(116);
+
+        if duration_since_last_update > sixteen_ms {
+            Triangle::new(Rect{ origin: Point{ x:0, y:0 }, width:100, height:100 })
+                .set(&mut self.renderer);
+
+            self.renderer.set();
+            self.renderer.render();
+
+            self.last_update = now;
+        }
     }
 }
