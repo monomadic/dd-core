@@ -2,10 +2,10 @@
 
 uniform mat4 flat_projection;
 uniform mat4 ortho_projection;
-uniform mat4 matrix;
+uniform mat4 screen_scale_matrix;
 
 in vec2 position;
 
 void main() {
-    gl_Position = flat_projection * vec4(position, 0.0, 1.0);
+    gl_Position = vec4(position, 0.0, 1.0);
 }

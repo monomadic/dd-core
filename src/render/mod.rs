@@ -86,21 +86,29 @@ impl Renderer{
                     let uniforms = uniform! {
                         flat_projection: flat_projection,
                         ortho_projection: ortho_projection,
-                        matrix: [
-                            [1.0, 0.0, 0.0, 1.0],
-                            [0.0, 1.0, 0.0, 1.0],
-                            [0.0, 0.0, 1.0, 1.0],
-                            [0.0, 0.0, 0.0, 1.0f32],
+                        screen_scale_matrix: [
+                            [ 0.5, 0., 0., 0. ], // x
+                            [ 0., 0.5, 0., 0. ], // y
+                            [ 0., 0., 1., 0. ], // z
+                            [ 0., 0., 0., 1.0f32 ],
                         ]
                     };
 
                     let indices = glium::index::NoIndices(glium::index::PrimitiveType::TrianglesList);
 
                     let shape = vec![
-                        Vertex { position: [ 0.0,  0.0 ] },
-                        Vertex { position: [ 0.5,  1.0 ] },
-                        Vertex { position: [ 1.0,  0.0 ] },
+                        Vertex { position: [ -1., -1. ] },
+                        Vertex { position: [  1.,  1. ] },
+                        Vertex { position: [ -1.,  1. ] },
+                        Vertex { position: [ -1., -1. ] },
+                        Vertex { position: [  1.,  1. ] },
+                        Vertex { position: [  1., -1. ] },
                     ];
+//                    let shape = vec![
+//                        Vertex { position: [ 0.0,  0.0 ] },
+//                        Vertex { position: [ 50.0,  100.0 ] },
+//                        Vertex { position: [ 100.0,  0.0 ] },
+//                    ];
 
                     let vertex_buffer = glium::VertexBuffer::new(&self.display, &shape).unwrap();
 
