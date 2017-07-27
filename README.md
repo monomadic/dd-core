@@ -1,4 +1,4 @@
-# dd-core
+<img src="logo.png" alt="go-staticgen" height="75">
 
 _**NOTE:** This library is undergoing major changes, abandoning conrod support in favor of a custom gui layer. The progress of the gui front end can be followed at https://github.com/robsaunders/dd-gui - expect an update here within a few days._
 
