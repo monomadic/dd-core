@@ -1,6 +1,6 @@
 # dd-core
 
-**NOTE:** This library is undergoing major changes, abandoning conrod support in favor of a custom gui layer. The progress of the gui front end can be followed at https://github.com/robsaunders/dd-gui - expect an update here within a few days.
+_**NOTE:** This library is undergoing major changes, abandoning conrod support in favor of a custom gui layer. The progress of the gui front end can be followed at https://github.com/robsaunders/dd-gui - expect an update here within a few days._
 
 Simple library for developing VST2 plugins in 100% rust. The Steinberg SDK is not required (thankfully), and I believe therefore your code will not be subject to Steinbergs lame license. Most complexity is abstracted away and the user need only focus on what's important - processing dsp and accessing a simple immediate mode UI via conrod. I'll be looking to move away from conrod as rust matures and better alternatives appear (or I develop my own), as conrod is a truly horrible experience, but for now, using it via dd_core isn't too painful.
 
